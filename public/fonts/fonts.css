@@ -1,0 +1,99 @@
+@font-face {
+  font-family: "BBlack";
+  src: url("./Blinker/Blinker-Black.ttf") format("truetype");
+}
+@font-face {
+  font-family: "BBold";
+  src: url("./Blinker/Blinker-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "BExtraBold";
+  src: url("./Blinker/Blinker-ExtraBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "BExtraLight";
+  src: url("./Blinker/Blinker-ExtraLight.ttf") format("truetype");
+}
+@font-face {
+  font-family: "BLight";
+  src: url("./Blinker/Blinker-Light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "BRegular";
+  src: url("./Blinker/Blinker-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "BSemiBold";
+  src: url("./Blinker/Blinker-SemiBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "BThin";
+  src: url("./Blinker/Blinker-Thin.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OMedium";
+  src: url("./Open_Sans/static/OpenSans-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OExtraBold";
+  src: url("./Open_Sans/static/OpenSans-ExtraBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OLight";
+  src: url("./Open_Sans/static/OpenSans-Light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "ORegular";
+  src: url("./Open_Sans/static/OpenSans-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OSemiBold";
+  src: url("./Open_Sans/static/OpenSans-SemiBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OBold";
+  src: url("./Open_Sans/static/OpenSans-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "O";
+  src: url("./Blinker/Blinker-SemiBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "OSemiBoldItalic";
+  src: url("./Open_Sans/static/OpenSans-SemiBoldItalic.ttf") format("truetype");
+}
+@font-face {
+  font-family: "HMedium";
+  src: url("./Helvetica-Neue-Font/Helvetica-Neue-Font/MediumE/m.ttf")
+    format("truetype");
+}
+@font-face {
+  font-family: "HMediumIt";
+  src: url("./Helvetica-Neue-Font/Helvetica-Neue-Font/MediumIt/m.ttf")
+    format("truetype");
+}
+@font-face {
+  font-family: "HUltraLight";
+  src: url("./Helvetica-Neue-Font/Helvetica-Neue-Font/UltraLight/UltraLight.ttf")
+    format("truetype");
+}
+@font-face {
+  font-family: "HBdCnObl";
+  src: url("./Helvetica-Neue-Font/Helvetica-Neue-Font/BdCnObl/m.ttf")
+    format("truetype");
+}
+@font-face {
+  font-family: "HCnObl";
+  src: url("./Helvetica-Neue-Font/Helvetica-Neue-Font/CnObl/m.ttf")
+    format("truetype");
+}
+@font-face {
+  font-family: "HExtObl";
+  src: url("./Helvetica-Neue-Font/Helvetica-Neue-Font/ExtObl/m.ttf")
+    format("truetype");
+}
+@font-face {
+  font-family: "HHvCnObl";
+  src: url("./Helvetica-Neue-Font/Helvetica-Neue-Font/HvCnObl/m.ttf")
+    format("truetype");
+}

@@ -1,0 +1,35 @@
+@font-face {
+  font-family: "ExtraLight";
+  src: url("../../public/fonts/Blinker/Blinker-ExtraLight.ttf")
+    format("truetype");
+}
+
+/* custom-tabs.css */
+.ant-tabs {
+  color: #01562f !important;
+}
+.ant-tabs:hover {
+  color: #01562f !important;
+}
+
+.ant-tabs-nav .ant-tabs-tab {
+  color: #00000094;
+}
+
+.ant-tabs-nav .ant-tabs-tab:hover {
+  color: #000000 !important;
+}
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #1e2727 !important;
+}
+
+/* Add the custom underline styles */
+.ant-tabs-ink-bar {
+  position: absolute;
+  background-color: #01562f !important;
+  pointer-events: none;
+  color: #01562f !important;
+}
+/* Add the custom underline styles on hover */
+/* .ant-tabs-nav .ant-tabs-tab:hover .ant-tabs-ink-bar {
+  color: #01562f; } */
