@@ -6,14 +6,32 @@ import before from "../utils/images/before-removebg-preview.png";
 import after from "../utils/images/after-removebg-preview.png";
 import before2 from "../utils/images/before2-removebg-preview.png";
 
-import { Card, Tabs, Carousel, Col, Row, Collapse } from "antd";
+import {
+  Card,
+  Tabs,
+  Carousel,
+  Col,
+  Row,
+  Collapse,
+  Typography,
+  Divider
+} from "antd";
 import type { CollapsePanelProps } from "antd/lib/collapse/CollapsePanel";
 import ShoeSection from "../components/ShoeExpand";
 import image1 from "../utils/images/4.png";
 import image2 from "../utils/images/5.png";
 import image3 from "../utils/images/6.png";
+import team1 from "../utils/images/team1.jpg";
+import team2 from "../utils/images/team2.jpg";
+import team3 from "../utils/images/team3.png";
+import team4 from "../utils/images/team4.png";
+
+import svg1 from "../utils/icons/fit.svg";
+import svg2 from "../utils/icons/feel.svg";
+import svg3 from "../utils/icons/renew.svg";
+
 import { TypographyProps } from "antd/es/typography/Typography";
-import { Typography } from "antd";
+
 const { Text } = Typography;
 interface CenteredTabTitleProps {
   title: string;
@@ -28,7 +46,9 @@ const { Meta } = Card;
 const { TabPane } = Tabs;
 
 const CenteredTabTitle: React.FC<CenteredTabTitleProps> = ({ title }) => (
-  <div className="text-5xl font-[BRegular] hover:drop-shadow-2xl ">{title}</div>
+  <div className="text-xl lg:text-5xl font-[BRegular] hover:drop-shadow-2xl ">
+    {title}
+  </div>
 );
 
 const HomePage = () => {
@@ -53,6 +73,7 @@ const HomePage = () => {
             maxHeight: 400,
             maxWidth: 300
           }}
+          layout="responsive"
         />
       );
     }
@@ -65,6 +86,7 @@ const HomePage = () => {
             maxHeight: 600,
             maxWidth: 600
           }}
+          layout="responsive"
         />
       );
     }
@@ -74,7 +96,7 @@ const HomePage = () => {
   return (
     <div className="">
       <div
-        className="d-flex flex-1 lg:grid lg:grid-cols-2 my-8 "
+        className="lg:grid lg:grid-cols-2 my-8"
         style={{
           height: "100%",
           minHeight: 350,
@@ -84,7 +106,7 @@ const HomePage = () => {
         <div className="flex justify-center items-center">
           <div>{getImageForTab()}</div>
         </div>
-        <div className="lg:flex lg:flex-col ">
+        <div className="lg:flex lg:flex-col mt-4 lg:mt-0">
           <Card
             style={{
               border: "none",
@@ -93,7 +115,7 @@ const HomePage = () => {
           >
             <Tabs
               centered
-              className="text-xl mt-8 pt-8"
+              className="text-2xl lg:text-xl mt-8 pt-8"
               activeKey={selectedTab}
               onChange={handleTabChange}
             >
@@ -147,18 +169,26 @@ const HomePage = () => {
         What's Included
       </h1>
       <div className=" mt-16 ">
-        <Row className="flex justify-around drop-shadow-2xl text-center font-bold">
-          <Col span={3}>
-            <Card bordered={false}>Sustainable Packaging</Card>
+        <Row className="flex justify-center md:justify-around drop-shadow-2xl text-center font-bold gap-4 md:gap-0">
+          <Col xs={18} sm={12} md={6} lg={4}>
+            <Card bordered={false} className="max-w-xs mx-auto">
+              Sustainable Packaging
+            </Card>
           </Col>
-          <Col span={3}>
-            <Card bordered={false}>High-Quality Printing</Card>
+          <Col xs={18} sm={12} md={6} lg={4}>
+            <Card bordered={false} className="max-w-xs mx-auto">
+              High-Quality Printing
+            </Card>
           </Col>
-          <Col span={3}>
-            <Card bordered={false}>End-to-End Experience</Card>
+          <Col xs={18} sm={12} md={6} lg={4}>
+            <Card bordered={false} className="max-w-xs mx-auto">
+              End-to-End Experience
+            </Card>
           </Col>
-          <Col span={3}>
-            <Card bordered={false}>Design Consultation</Card>
+          <Col xs={18} sm={12} md={6} lg={4}>
+            <Card bordered={false} className="max-w-xs mx-auto">
+              Design Consultation
+            </Card>
           </Col>
         </Row>
       </div>
@@ -182,9 +212,39 @@ const HomePage = () => {
           backgroundColor="#d0d0d0"
         /> */}
       </div>
-      <div></div>
+      <Row className="flex justify-around my-16 py-12 text-2xl">
+        <Col className="">
+          <div className="my-16">
+            <Image src={svg1} alt="team1" />
+            <p className="mt-6 font-[O]">Unleash Creativity</p>
+            <span className="font-[OLight]">
+              Design Your Signature Sneakers
+            </span>
+          </div>
+          <Divider />
+          <div className="my-16">
+            <Image src={svg2} alt="team1" />
+            <p className="mt-6 font-[O]">Revive Reimagine Renew</p>
+            <span className="font-[OLight]">
+              Breath New Life into Your Favorite Footwear
+            </span>
+          </div>
+          <Divider />
+          <div className="my-16">
+            <Image src={svg3} alt="team1" />
+            <p className="mt-6 font-[O]">Uniquely Yours</p>
+            <span className="font-[OLight]">
+              Customized Sneakers That elevate Your Branding Game
+            </span>
+          </div>
+          <Divider />
+        </Col>
+        <Col>
+          <Image src={team1} alt="team1" className="rounded-xl " />
+        </Col>
+      </Row>
 
-      <div className="mt-2 ">
+      {/* <div className="mt-2 ">
         <Carousel afterChange={onChangeSlid} autoplay className="" dots>
           <div className="">
             <Image src={before} style={contentStyle} alt="before" />
@@ -196,7 +256,7 @@ const HomePage = () => {
             <Image src={after} style={contentStyle} alt="after" />
           </div>
         </Carousel>
-      </div>
+      </div> */}
     </div>
   );
 };

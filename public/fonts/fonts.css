@@ -77,23 +77,3 @@
   src: url("./Helvetica-Neue-Font/Helvetica-Neue-Font/UltraLight/UltraLight.ttf")
     format("truetype");
 }
-@font-face {
-  font-family: "HBdCnObl";
-  src: url("./Helvetica-Neue-Font/Helvetica-Neue-Font/BdCnObl/m.ttf")
-    format("truetype");
-}
-@font-face {
-  font-family: "HCnObl";
-  src: url("./Helvetica-Neue-Font/Helvetica-Neue-Font/CnObl/m.ttf")
-    format("truetype");
-}
-@font-face {
-  font-family: "HExtObl";
-  src: url("./Helvetica-Neue-Font/Helvetica-Neue-Font/ExtObl/m.ttf")
-    format("truetype");
-}
-@font-face {
-  font-family: "HHvCnObl";
-  src: url("./Helvetica-Neue-Font/Helvetica-Neue-Font/HvCnObl/m.ttf")
-    format("truetype");
-}
