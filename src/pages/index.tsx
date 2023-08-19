@@ -67,12 +67,7 @@ const HomePage = () => {
         <Image
           src={home2}
           alt="home"
-          style={{
-            width: "100%",
-            height: "100%",
-            maxHeight: 400,
-            maxWidth: 300
-          }}
+          className="w-full h-full max-h-600 max-w-600"
           layout="responsive"
         />
       );
@@ -82,10 +77,7 @@ const HomePage = () => {
         <Image
           src={home1}
           alt="home"
-          style={{
-            maxHeight: 600,
-            maxWidth: 600
-          }}
+          className="max-h-600 max-w-600"
           layout="responsive"
         />
       );
@@ -98,7 +90,6 @@ const HomePage = () => {
       <div
         className="lg:grid lg:grid-cols-2 my-8"
         style={{
-          height: "100%",
           minHeight: 350,
           maxHeight: 350
         }}
@@ -124,7 +115,7 @@ const HomePage = () => {
                 key="1"
                 className="justify-center items-center"
               >
-                {/* <span>Empower Your Brand</span>
+                <span>Empower Your Brand</span>
                 <br />
                 Custom Sneakers for Businesses!
                 <span>
@@ -134,10 +125,10 @@ const HomePage = () => {
                 <span>
                   . <br />
                   Choose Colors
-                </span> */}
-                {/* <span className=" font-[OBoldItalic]">
+                </span>
+                <span className=" font-[OBoldItalic]">
                   <br /> and add your logo for a unique touch
-                </span> */}
+                </span>
               </TabPane>
               <TabPane
                 tab={<CenteredTabTitle title="Cleaning" />}
@@ -195,7 +186,7 @@ const HomePage = () => {
       {/* <h1 className="text-5xl font-[HUltraLight] text-center mt-8 pt-8 ">
         New Releases
       </h1> */}
-      <div className="flex mt-16">
+      <div className="flex flex-col md:flex-row mt-16">
         <ShoeSection
           imageSrc={image1}
           headerText="Nike"
@@ -208,7 +199,7 @@ const HomePage = () => {
         />
         {/* <ShoeSection
           imageSrc={image3}
-          headerText="Column 2"
+          headerText="Treec"
           backgroundColor="#d0d0d0"
         /> */}
       </div>
@@ -243,7 +234,37 @@ const HomePage = () => {
           <Image src={team1} alt="team1" className="rounded-xl " />
         </Col>
       </Row>
-
+      <Row className="flex justify-around my-16 py-12 text-2xl">
+        <Col>
+          <Image src={team1} alt="team1" className="rounded-xl " />
+        </Col>
+        <Col className="">
+          <div className="my-16">
+            <Image src={svg1} alt="team1" />
+            <p className="mt-6 font-[O]">Unleash Creativity</p>
+            <span className="font-[OLight]">
+              Design Your Signature Sneakers
+            </span>
+          </div>
+          <Divider />
+          <div className="my-16">
+            <Image src={svg2} alt="team1" />
+            <p className="mt-6 font-[O]">Revive Reimagine Renew</p>
+            <span className="font-[OLight]">
+              Breath New Life into Your Favorite Footwear
+            </span>
+          </div>
+          <Divider />
+          <div className="my-16">
+            <Image src={svg3} alt="team1" />
+            <p className="mt-6 font-[O]">Uniquely Yours</p>
+            <span className="font-[OLight]">
+              Customized Sneakers That elevate Your Branding Game
+            </span>
+          </div>
+          <Divider />
+        </Col>
+      </Row>
       {/* <div className="mt-2 ">
         <Carousel afterChange={onChangeSlid} autoplay className="" dots>
           <div className="">
