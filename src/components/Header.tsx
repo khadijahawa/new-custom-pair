@@ -9,50 +9,19 @@ import logo1 from "../utils/images/logo1.png";
 import Link from "next/link";
 import type { MenuProps, MenuTheme } from "antd/es/menu";
 import {
-  AppstoreOutlined,
-  CalendarOutlined,
-  LinkOutlined,
-  MailOutlined,
-  SettingOutlined
+  MobileOutlined,
+  ShoppingOutlined,
+  HomeOutlined,
+  ShopOutlined,
+  ClearOutlined,
+  DisconnectOutlined,
 } from "@ant-design/icons";
+import styles from "./styles.module.css";
 
 const Header = () => {
-  type MenuItem = Required<MenuProps>["items"][number];
-
-  const items: MenuItem[] = [
-    getItem("Navigation One", "1", <MailOutlined />),
-    getItem("Navigation Two", "2", <CalendarOutlined />),
-    getItem("Navigation Two", "sub1", <AppstoreOutlined />, [
-      getItem("Option 3", "3"),
-      getItem("Option 4", "4"),
-      getItem("Submenu", "sub1-2", null, [
-        getItem("Option 5", "5"),
-        getItem("Option 6", "6")
-      ])
-    ]),
-    getItem("Navigation Three", "sub2", <SettingOutlined />, [
-      getItem("Option 7", "7"),
-      getItem("Option 8", "8"),
-      getItem("Option 9", "9"),
-      getItem("Option 10", "10")
-    ]),
-    getItem(
-      <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-        Ant Design
-      </a>,
-      "link",
-      <LinkOutlined />
-    )
-  ];
-  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
+  type MenuItem = Required<MenuProps>["items"][number];
   function getItem(
     label: React.ReactNode,
     key?: React.Key | null,
@@ -63,9 +32,62 @@ const Header = () => {
       key,
       icon,
       children,
-      label
+      label,
     } as MenuItem;
   }
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+  const items: MenuItem[] = [
+    getItem(
+      <Link href="/" passHref onClick={closeMenu} className="block py-2">
+        Home
+      </Link>,
+      "1",
+      <HomeOutlined />
+    ),
+    getItem("Shop", "sub1", <ShoppingOutlined />, [
+      getItem(
+        <Link href="/" passHref onClick={closeMenu} className="block py-2">
+          For Business
+        </Link>,
+        "2",
+        <ShopOutlined />
+      ),
+
+      getItem(
+        <Link href="/" passHref onClick={closeMenu} className="block py-2">
+          Cleaning
+        </Link>,
+        "3",
+        <ClearOutlined />
+      ),
+    ]),
+    getItem(
+      <Link href="/" passHref onClick={closeMenu} className="block py-2">
+        Contact Us
+      </Link>,
+      "4",
+      <DisconnectOutlined />
+    ),
+    getItem(
+      <Link href="/" passHref onClick={closeMenu} className="block py-2">
+        About Custom Pair
+      </Link>,
+      "5",
+      <MobileOutlined />
+    ),
+  ];
+
+  const onClick: MenuProps["onClick"] = (e) => {
+    console.log("click", e);
+  };
+
+  const router = useRouter();
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
 
   return (
     <div className="relative flex items-center justify-between h-16 font-[BRegular]">
@@ -91,34 +113,7 @@ const Header = () => {
           } fixed top-0 right-0 h-full w-64 bg-white shadow-md transform transition-transform ease-in-out duration-300 z-50`}
         >
           <div className="p-4">
-            <Menu>
-              <Menu.Item key="1">
-                <Link href="/" className="block py-2" onClick={closeMenu}>
-                  Home
-                </Link>
-              </Menu.Item>
-              <SubMenu key="products" title="Products" className="block py-2">
-                <Menu.Item key="2">
-                  <Link href="/products/category1" onClick={closeMenu}>
-                    Category 1
-                  </Link>
-                </Menu.Item>
-                <Menu.Item key="3">
-                  <Link href="/products/category2" onClick={closeMenu}>
-                    Category 2
-                  </Link>
-                </Menu.Item>
-              </SubMenu>
-              <Menu.Item key="4">
-                <Link
-                  href="/contact"
-                  className="block py-2"
-                  onClick={closeMenu}
-                >
-                  Contact
-                </Link>
-              </Menu.Item>
-            </Menu>
+            <Menu items={items} mode="inline" onClick={onClick} />
           </div>
         </div>
       </div>

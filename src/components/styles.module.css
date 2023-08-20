@@ -68,7 +68,15 @@
   max-height: 300px;
   object-fit: contain;
 }
-
+.ant-menu-inline .ant-menu-item-selected {
+  background-color: none; /* Set the background color to transparent */
+  color: #000; /* Change the text color to black or your desired color */
+}
+.ant-menu-inline,
+.ant-menu-item::after,
+.ant-menu-submenu::after {
+  background-color: none; /* Set the background color to transparent */
+}
 @media (max-width: 668px) {
   .column {
     width: 100%;
