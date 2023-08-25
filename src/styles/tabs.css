@@ -6,10 +6,10 @@
 
 /* custom-tabs.css */
 .ant-tabs {
-  color: #01562f !important;
+  /* color: #01562f !important; */
 }
 .ant-tabs:hover {
-  color: #01562f !important;
+  /* color: #01562f !important; */
 }
 
 .ant-tabs-nav .ant-tabs-tab {
@@ -33,3 +33,14 @@
 /* Add the custom underline styles on hover */
 /* .ant-tabs-nav .ant-tabs-tab:hover .ant-tabs-ink-bar {
   color: #01562f; } */
+.ant-menu-horizontal > .ant-menu-item:hover,
+.ant-menu-horizontal > .ant-menu-submenu:hover > .ant-menu-submenu-title {
+  border: none;
+  border-bottom: none !important ;
+}
+
+.ant-menu-horizontal > .ant-menu-item.ant-menu-item-selected,
+.ant-menu-horizontal > .ant-menu-item:hover {
+  border-bottom: none !important;
+  border: none;
+}

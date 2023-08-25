@@ -68,14 +68,24 @@
   max-height: 300px;
   object-fit: contain;
 }
-.ant-menu-inline .ant-menu-item-selected {
-  background-color: none; /* Set the background color to transparent */
-  color: #000; /* Change the text color to black or your desired color */
+.antmenu {
+  background-color: transparent;
+  width: 100%;
+  margin-top: 20px;
+  padding-top: 20px;
+  padding: 6px;
 }
-.ant-menu-inline,
-.ant-menu-item::after,
-.ant-menu-submenu::after {
-  background-color: none; /* Set the background color to transparent */
+.ant-menu-item-selected,
+.ant-menu-submenu-selected {
+  background-color: #01562f;
+  color: #01562f;
+}
+.antMenuItem {
+  height: 60px; /* Adjust the height as needed */
+  line-height: 60px; /* Center the content vertically */
+}
+.logo {
+  width: 100%;
 }
 @media (max-width: 668px) {
   .column {
@@ -90,5 +100,9 @@
     transform: none;
     letter-spacing: 5px;
     transition: none;
+  }
+  .logo {
+    width: 80%;
+    padding-top: 5%;
   }
 }

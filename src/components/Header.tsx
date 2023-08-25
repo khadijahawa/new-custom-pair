@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Menu, Space, Divider, Switch } from "antd";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import cartIcon from "../utils/icons/fluent_cart-16-regular.svg";
-import userIcon from "../utils/icons/uiw_user.svg";
 import menuIcon from "../utils/icons/bytesize_menu.svg";
 import logo1 from "../utils/images/logo1.png";
 import Link from "next/link";
@@ -15,11 +13,15 @@ import {
   ShopOutlined,
   ClearOutlined,
   DisconnectOutlined,
+  CaretDownOutlined,
+  ShoppingCartOutlined
 } from "@ant-design/icons";
 import styles from "./styles.module.css";
+import "../styles/tabs.css";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [current, setCurrent] = useState("mail");
 
   type MenuItem = Required<MenuProps>["items"][number];
   function getItem(
@@ -32,57 +34,86 @@ const Header = () => {
       key,
       icon,
       children,
-      label,
+      label
     } as MenuItem;
   }
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+
   const items: MenuItem[] = [
     getItem(
-      <Link href="/" passHref onClick={closeMenu} className="block py-2">
+      <Link href="/" passHref onClick={closeMenu} className="font-[BRegular]">
         Home
       </Link>,
-      "1",
-      <HomeOutlined />
+      "1"
+      // <HomeOutlined />
     ),
     getItem("Shop", "sub1", <ShoppingOutlined />, [
       getItem(
-        <Link href="/" passHref onClick={closeMenu} className="block py-2">
+        <Link
+          href="/forBusniuss"
+          passHref
+          onClick={closeMenu}
+          className="font-[BRegular]"
+        >
           For Business
         </Link>,
-        "2",
-        <ShopOutlined />
+        "2"
+        // <ShopOutlined />
       ),
 
       getItem(
-        <Link href="/" passHref onClick={closeMenu} className="block py-2">
+        <Link
+          href="/cleaning"
+          passHref
+          onClick={closeMenu}
+          className=" font-[BRegular]"
+        >
           Cleaning
         </Link>,
-        "3",
-        <ClearOutlined />
-      ),
+        "3"
+        // <ClearOutlined />
+      )
     ]),
     getItem(
-      <Link href="/" passHref onClick={closeMenu} className="block py-2">
+      <Link
+        href="/contact"
+        passHref
+        onClick={closeMenu}
+        className="font-[BRegular]"
+      >
         Contact Us
       </Link>,
-      "4",
-      <DisconnectOutlined />
+      "4"
+      // <DisconnectOutlined />
     ),
     getItem(
-      <Link href="/" passHref onClick={closeMenu} className="block py-2">
+      <Link href="/" passHref onClick={closeMenu} className="font-[BRegular]">
         About Custom Pair
       </Link>,
-      "5",
-      <MobileOutlined />
+      "5"
+      // <MobileOutlined />
     ),
+    getItem(
+      <Link href="/contact">
+        <ShoppingCartOutlined
+          className="ml-2 mt-3"
+          style={{ fontSize: "28px" }}
+        />
+      </Link>,
+      "6"
+      // <MobileOutlined />
+    )
   ];
 
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click", e);
   };
-
+  const onClickDesktop: MenuProps["onClick"] = (e) => {
+    console.log("click ", e);
+    setCurrent(e.key);
+  };
   const router = useRouter();
 
   const toggleMenu = () => {
@@ -90,16 +121,15 @@ const Header = () => {
   };
 
   return (
-    <div className="relative flex items-center justify-between h-16 font-[BRegular]">
-      <div className="w-80">
+    <div className="relative flex items-center justify-between h-16 font-[BRegular] text-base">
+      <div>
         <Link href="/">
-          <Image src={logo1} alt="Logo" className="w-100" />
+          <Image src={logo1} alt="Logo" className={styles.logo} />
         </Link>
       </div>
 
       {/* Mobile menu */}
       <div className="md:hidden flex items-center relative z-50">
-        {/* Set z-index to 50 */}
         <button
           onClick={toggleMenu}
           className="mr-2 text-xl"
@@ -112,32 +142,36 @@ const Header = () => {
             isMenuOpen ? "translate-x-0" : "translate-x-full"
           } fixed top-0 right-0 h-full w-64 bg-white shadow-md transform transition-transform ease-in-out duration-300 z-50`}
         >
-          <div className="p-4">
-            <Menu items={items} mode="inline" onClick={onClick} />
-          </div>
+          <Menu
+            items={items}
+            mode="inline"
+            onClick={onClick}
+            className={`font-[BRegular] text-base ${styles.antmenu}`}
+          />
         </div>
       </div>
 
       {/* Desktop menu */}
-      <div className="hidden md:flex my-3 ">
-        <Link href="/" className="mx-6 text-xl">
-          Home
-        </Link>
-        <Link href="/about" className="mx-6 text-xl">
-          Products
-        </Link>
-        <Link href="/contact" className="mx-6 text-xl">
-          Contact
-        </Link>
-      </div>
+      <div className="hidden md:flex pr-14">
+        <div>
+          <Menu
+            items={items}
+            mode="horizontal"
+            selectedKeys={[current]}
+            onClick={onClickDesktop}
+            style={{ minWidth: "500px", borderBottom: "none" }}
+            className="header-menu"
+          />
+        </div>
 
-      <div className="flex">
-        <Link href="/about">
-          <Image src={userIcon} alt="user" className="p-2" />
-        </Link>
-        <Link href="/contact">
-          <Image src={cartIcon} alt="cart" className="p-2" />
-        </Link>
+        {/* <div>
+          <Link href="/contact">
+            <ShoppingCartOutlined
+              className="ml-2 mt-3"
+              style={{ fontSize: "28px" }}
+            />
+          </Link>
+        </div> */}
       </div>
     </div>
   );

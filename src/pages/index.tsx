@@ -68,7 +68,7 @@ const HomePage = () => {
           src={home2}
           alt="home"
           className="w-full h-full max-h-600 max-w-600"
-          layout="responsive"
+          // layout="responsive"
         />
       );
     }
@@ -77,8 +77,8 @@ const HomePage = () => {
         <Image
           src={home1}
           alt="home"
-          className="max-h-600 max-w-600"
-          layout="responsive"
+          // className="max-h-600 max-w-600"
+          // layout="responsive"
         />
       );
     }
@@ -115,7 +115,7 @@ const HomePage = () => {
                 key="1"
                 className="justify-center items-center"
               >
-                <span>Empower Your Brand</span>
+                {/* <span>Empower Your Brand</span>
                 <br />
                 Custom Sneakers for Businesses!
                 <span>
@@ -125,7 +125,7 @@ const HomePage = () => {
                 <span>
                   . <br />
                   Choose Colors
-                </span>
+                </span> */}
                 <span className=" font-[OBoldItalic]">
                   <br /> and add your logo for a unique touch
                 </span>
@@ -147,10 +147,10 @@ const HomePage = () => {
                   We pick up your beloved sneakers from your location and return
                   them sparkling clean
                 </span> */}
-                {/* <span className=" font-[OBoldItalic]">
+                <span className=" font-[OBoldItalic]">
                   <br /> Our expert team ensures meticulous cleaning, to their
                   pristine condition.
-                </span> */}
+                </span>
               </TabPane>
             </Tabs>
           </Card>
@@ -278,6 +278,18 @@ const HomePage = () => {
           </div>
         </Carousel>
       </div> */}
+      <div className="my-10 flex justify-center">
+        <iframe
+          className="rounded-2xl"
+          width="88%"
+          height="415"
+          src="https://www.youtube-nocookie.com/embed/XBIZbf8FTLg"
+          title="Custom Pair"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      </div>
     </div>
   );
 };
