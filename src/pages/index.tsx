@@ -14,7 +14,7 @@ import {
   Row,
   Collapse,
   Typography,
-  Divider
+  Divider,
 } from "antd";
 import type { CollapsePanelProps } from "antd/lib/collapse/CollapsePanel";
 import ShoeSection from "../components/ShoeExpand";
@@ -39,7 +39,7 @@ interface CenteredTabTitleProps {
 
 const contentStyle: React.CSSProperties = {
   maxWidth: "100%",
-  width: "100%"
+  width: "100%",
 };
 
 const { Meta } = Card;
@@ -91,7 +91,7 @@ const HomePage = () => {
         className="lg:grid lg:grid-cols-2 my-8"
         style={{
           minHeight: 350,
-          maxHeight: 350
+          maxHeight: 350,
         }}
       >
         <div className="flex justify-center items-center">
@@ -101,7 +101,7 @@ const HomePage = () => {
           <Card
             style={{
               border: "none",
-              textAlign: "center"
+              textAlign: "center",
             }}
           >
             <Tabs
@@ -157,6 +157,7 @@ const HomePage = () => {
         </div>
       </div>
       <h1 className="text-5xl font-[HUltraLight] text-center mt-32 pt-8 ">
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
         What's Included
       </h1>
       <div className=" mt-16 ">

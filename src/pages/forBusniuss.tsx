@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import product1 from "../utils/images/1.jpeg";
@@ -7,17 +8,52 @@ import product3 from "../utils/images/2.png";
 import product4 from "../utils/images/3.png";
 import product5 from "../utils/images/4.png";
 import product6 from "../utils/images/5.png";
+import { client, urlFor } from "@/sanity/lib/client";
+import { groq } from "next-sanity";
+import { SanityProduct } from "@/config/inventory";
+// import { urlFor } from "@/sanity/lib/client";
+
+interface Product {
+  _id: string;
+  name: string;
+  image: { url: string }[];
+  price: number;
+  details: string;
+}
 
 function forBusniuss() {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  async function fetchProducts() {
+    const products = await client?.fetch<Product[]>(
+      groq`*[_type == "product"] {
+      _id,
+      name,
+      image,
+      price,
+      details
+    }`
+    );
+    console.log("Fetched products:", products);
+    return products;
+  }
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const productsData = await fetchProducts();
+        console.log("Setting products:", productsData);
+        setProducts(productsData);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <div>
       <div className="flex items-center justify-center py-4 md:py-8 flex-wrap">
-        {/* <button
-          type="button"
-          className="text-blue-700 hover:text-white border border-blue-600 bg-white hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800"
-        >
-          All categories
-        </button> */}
         <button
           type="button"
           className="text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:text-white dark:focus:ring-gray-800"
@@ -31,91 +67,32 @@ function forBusniuss() {
           Adidas
         </button>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        <div>
-          <Image
-            className="h-auto max-w-full rounded-lg"
-            src={product1}
-            alt=""
-          />
-        </div>
-        <div>
-          <Image
-            className="h-auto max-w-full rounded-lg"
-            src={product2}
-            alt=""
-          />
-        </div>
-        <div>
-          <Image
-            className="h-auto max-w-full rounded-lg"
-            src={product3}
-            alt=""
-          />
-        </div>
-        <div>
-          <Image
-            className="h-auto max-w-full rounded-lg"
-            src={product4}
-            alt=""
-          />
-        </div>
-        <div>
-          <Image
-            className="h-auto max-w-full rounded-lg"
-            src={product5}
-            alt=""
-          />
-        </div>
-        <div>
-          <Image
-            className="h-auto max-w-full rounded-lg"
-            src={product6}
-            alt=""
-          />
-        </div>
-        {/* <div>
-          <Image
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <Image
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <Image
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <Image
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <Image
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg"
-            alt=""
-          />
-        </div>
-        <div>
-          <Image
-            className="h-auto max-w-full rounded-lg"
-            src="https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg"
-            alt=""
-          />
-        </div> */}
+      <div>
+        {products.length > 0 ? (
+          <div>
+            {products.map((product) => (
+              <div key={product._id}>
+                {product.image.map((img, index) => (
+                  <Image
+                    key={index}
+                    className="h-auto max-w-full rounded-lg"
+                    src={urlFor(img).url()}
+                    alt={product.name}
+                    width="100"
+                    height="100"
+                    unoptimized={true}
+                  />
+                ))}
+
+                <p>{product.name}</p>
+                <p>Price: ${product.price}</p>
+                <p>{product.details}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>Loading products...</p>
+        )}
       </div>
     </div>
   );
