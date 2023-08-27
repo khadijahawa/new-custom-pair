@@ -4,7 +4,7 @@ import image1 from "../utils/images/4.png";
 import image2 from "../utils/images/5.png";
 import image3 from "../utils/images/6.png";
 
-const About: React.FC = () => {
+const About = () => {
   return (
     <div>
       <div style={{ display: "flex" }}>

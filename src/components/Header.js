@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Menu, Space, Divider, Switch } from "antd";
+import { Menu } from "antd";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import menuIcon from "../utils/icons/bytesize_menu.svg";
 import logo1 from "../utils/images/logo1.png";
 import Link from "next/link";
-import type { MenuProps, MenuTheme } from "antd/es/menu";
 import {
   MobileOutlined,
   ShoppingOutlined,
@@ -13,104 +12,114 @@ import {
   ShopOutlined,
   ClearOutlined,
   DisconnectOutlined,
-  CaretDownOutlined,
   ShoppingCartOutlined
 } from "@ant-design/icons";
 import styles from "./styles.module.css";
 import "../styles/tabs.css";
+import { useStateContext } from "../../context/StateContext";
+import Cart from "./Cart";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [current, setCurrent] = useState("mail");
+  const { showCart, setShowCart, totalQuantities } = useStateContext();
 
-  type MenuItem = Required<MenuProps>["items"][number];
-  function getItem(
-    label: React.ReactNode,
-    key?: React.Key | null,
-    icon?: React.ReactNode,
-    children?: MenuItem[]
-  ): MenuItem {
-    return {
-      key,
-      icon,
-      children,
-      label
-    } as MenuItem;
-  }
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
 
-  const items: MenuItem[] = [
-    getItem(
-      <Link href="/" passHref onClick={closeMenu} className="font-[BRegular]">
-        Home
-      </Link>,
-      "1"
-      // <HomeOutlined />
-    ),
-    getItem("Shop", "sub1", <ShoppingOutlined />, [
-      getItem(
+  const items = [
+    {
+      key: "1",
+      label: (
+        <Link href="/" passHref onClick={closeMenu} className="font-[BRegular]">
+          Home
+        </Link>
+      )
+    },
+    {
+      key: "sub1",
+      label: "Shop",
+      icon: <ShoppingOutlined />,
+      children: [
+        {
+          key: "2",
+          label: (
+            <Link
+              href="/forBusniuss"
+              passHref
+              onClick={closeMenu}
+              className="font-[BRegular]"
+            >
+              For Business
+            </Link>
+          ),
+          icon: <ShopOutlined />
+        },
+        {
+          key: "3",
+          label: (
+            <Link
+              href="/cleaning"
+              passHref
+              onClick={closeMenu}
+              className=" font-[BRegular]"
+            >
+              Cleaning
+            </Link>
+          ),
+          icon: <ClearOutlined />
+        }
+      ]
+    },
+    {
+      key: "4",
+      label: (
         <Link
-          href="/forBusniuss"
+          href="/contact"
           passHref
           onClick={closeMenu}
           className="font-[BRegular]"
         >
-          For Business
-        </Link>,
-        "2"
-        // <ShopOutlined />
+          Contact Us
+        </Link>
       ),
-
-      getItem(
-        <Link
-          href="/cleaning"
-          passHref
-          onClick={closeMenu}
-          className=" font-[BRegular]"
-        >
-          Cleaning
-        </Link>,
-        "3"
-        // <ClearOutlined />
+      icon: <DisconnectOutlined />
+    },
+    {
+      key: "5",
+      label: (
+        <Link href="/" passHref onClick={closeMenu} className="font-[BRegular]">
+          About Custom Pair
+        </Link>
+      ),
+      icon: <MobileOutlined />
+    },
+    {
+      key: "6",
+      label: (
+        <div>
+          <button
+            onClick={() => setShowCart(true)}
+            type="button"
+            className="cart-icon"
+          >
+            <ShoppingCartOutlined
+              className="ml-2 mt-3"
+              style={{ fontSize: "28px" }}
+            />
+            <span className="cart-item-qty">{totalQuantities}</span>
+          </button>
+          {showCart && <Cart />}
+        </div>
       )
-    ]),
-    getItem(
-      <Link
-        href="/contact"
-        passHref
-        onClick={closeMenu}
-        className="font-[BRegular]"
-      >
-        Contact Us
-      </Link>,
-      "4"
-      // <DisconnectOutlined />
-    ),
-    getItem(
-      <Link href="/" passHref onClick={closeMenu} className="font-[BRegular]">
-        About Custom Pair
-      </Link>,
-      "5"
-      // <MobileOutlined />
-    ),
-    getItem(
-      <Link href="/contact">
-        <ShoppingCartOutlined
-          className="ml-2 mt-3"
-          style={{ fontSize: "28px" }}
-        />
-      </Link>,
-      "6"
-      // <MobileOutlined />
-    )
+    }
   ];
 
-  const onClick: MenuProps["onClick"] = (e) => {
+  const onClick = (e) => {
     console.log("click", e);
   };
-  const onClickDesktop: MenuProps["onClick"] = (e) => {
+  const onClickDesktop = (e) => {
     console.log("click ", e);
     setCurrent(e.key);
   };
@@ -163,15 +172,6 @@ const Header = () => {
             className="header-menu"
           />
         </div>
-
-        {/* <div>
-          <Link href="/contact">
-            <ShoppingCartOutlined
-              className="ml-2 mt-3"
-              style={{ fontSize: "28px" }}
-            />
-          </Link>
-        </div> */}
       </div>
     </div>
   );

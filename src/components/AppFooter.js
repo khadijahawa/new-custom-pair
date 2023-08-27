@@ -7,7 +7,7 @@ import after from "../utils/images/after-removebg-preview.png";
 import before2 from "../utils/images/before2-removebg-preview.png";
 
 const AppFooter = () => {
-  const contentStyle: React.CSSProperties = {
+  const contentStyle = {
     maxWidth: "100%",
     width: "100%"
   };

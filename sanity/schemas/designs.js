@@ -9,19 +9,19 @@ export const designs = {
       type: "array",
       of: [{ type: "image" }],
       options: {
-        hotspot: true,
-      },
+        hotspot: true
+      }
     },
 
     {
       name: "price",
       title: "Price",
-      type: "number",
+      type: "number"
     },
     {
       name: "details",
       title: "Details",
-      type: "string",
-    },
-  ],
+      type: "string"
+    }
+  ]
 };

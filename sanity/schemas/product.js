@@ -9,19 +9,8 @@ export const product = {
       type: "array",
       of: [{ type: "image" }],
       options: {
-        hotspot: true,
-      },
-    },
-    // {
-    //   name: "id",
-    //   title: "ID",
-    //   type: "string",
-    //   readOnly: true,
-    // },
-    {
-      name: "name",
-      title: "Name",
-      type: "string",
+        hotspot: true
+      }
     },
     {
       name: "slug",
@@ -29,23 +18,37 @@ export const product = {
       type: "slug",
       options: {
         source: "name",
-        maxLength: 90,
-      },
+        maxLength: 90
+      }
+    },
+    {
+      name: "name",
+      title: "Name",
+      type: "string"
+    },
+    {
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      options: {
+        source: "name",
+        maxLength: 90
+      }
     },
     {
       name: "price",
       title: "Price",
-      type: "number",
+      type: "number"
     },
     {
       name: "details",
       title: "Details",
-      type: "string",
+      type: "string"
     },
     {
       name: "brand",
       title: "Brand",
-      type: "string",
-    },
-  ],
+      type: "string"
+    }
+  ]
 };

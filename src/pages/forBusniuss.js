@@ -9,29 +9,29 @@ import product4 from "../utils/images/3.png";
 import product5 from "../utils/images/4.png";
 import product6 from "../utils/images/5.png";
 import { client, urlFor } from "@/sanity/lib/client";
+import {
+  StarOutlined,
+  StarFilled,
+  MinusOutlined,
+  PlusOutlined
+} from "@ant-design/icons";
+import { useStateContext } from "../../context/StateContext";
 import { groq } from "next-sanity";
-import { SanityProduct } from "@/config/inventory";
-// import { urlFor } from "@/sanity/lib/client";
-
-interface Product {
-  _id: string;
-  name: string;
-  image: { url: string }[];
-  price: number;
-  details: string;
-  brand: string;
-}
+import ForBusinessProduct from "../components/ForBusinessProduct";
 
 function forBusniuss() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [products, setProducts] = useState([]);
+  const [index, setIndex] = useState(0);
+  const [selectedBrand, setSelectedBrand] = useState(null);
+  // const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
 
   async function fetchProducts() {
-    const products = await client?.fetch<Product[]>(
+    const products = await client?.fetch(
       groq`*[_type == "product"] {
       _id,
       name,
       image,
+      slug,
       price,
       details,
       brand
@@ -40,7 +40,7 @@ function forBusniuss() {
     console.log("Fetched products:", products);
     return products;
   }
-  const handleBrandFilter = (brand: string) => {
+  const handleBrandFilter = (brand) => {
     setSelectedBrand(brand);
   };
 
@@ -62,45 +62,35 @@ function forBusniuss() {
       <div className="flex items-center justify-center py-4 md:py-8 flex-wrap">
         <button
           type="button"
-          onClick={() => handleBrandFilter("nike")} // Example brand filter
+          className="text-black-700 border border-black-200 bg-white hover:ring-black-800 hover:text-black-400 focus:ring-2 focus:outline-none focus:ring-black-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:border-black-500 dark:text-black-500 dark:hover:text-white dark:hover:bg-black-500 dark:bg-black-900 dark:focus:ring-black-800"
+          onClick={() => handleBrandFilter(null)}
+        >
+          All Brands
+        </button>
+
+        <button
+          type="button"
+          onClick={() => handleBrandFilter("nike")}
           className="text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:text-white dark:focus:ring-gray-800"
         >
           Nike
         </button>
         <button
           type="button"
-          onClick={() => handleBrandFilter("adidas")} // Example brand filter
+          onClick={() => handleBrandFilter("adidas")}
           className="text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:text-white dark:focus:ring-gray-800"
         >
           Adidas
         </button>
       </div>
-      <div>
+      <div className="product-detail-container">
         {products.length > 0 ? (
           products
             .filter((product) =>
               selectedBrand ? product.brand === selectedBrand : true
             )
             .map((product) => (
-              <div key={product._id}>
-                {/* Render product details */}
-                {product.image.map((img, index) => (
-                  <div key={index}>
-                    <Image
-                      key={index}
-                      className="h-auto max-w-full rounded-lg"
-                      src={urlFor(img).url()}
-                      alt={product.name}
-                      width="100"
-                      height="100"
-                      unoptimized={true}
-                    />
-                  </div>
-                ))}
-                <p>{product.name}</p>
-                <p>Price: ${product.price}</p>
-                <p>{product.details}</p>
-              </div>
+              <ForBusinessProduct key={product._id} product={product} />
             ))
         ) : (
           <p>Loading products...</p>

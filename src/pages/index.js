@@ -5,18 +5,7 @@ import home2 from "../utils/images/home2.png";
 import before from "../utils/images/before-removebg-preview.png";
 import after from "../utils/images/after-removebg-preview.png";
 import before2 from "../utils/images/before2-removebg-preview.png";
-
-import {
-  Card,
-  Tabs,
-  Carousel,
-  Col,
-  Row,
-  Collapse,
-  Typography,
-  Divider,
-} from "antd";
-import type { CollapsePanelProps } from "antd/lib/collapse/CollapsePanel";
+import { Card, Tabs, Col, Row, Divider, Typography } from "antd";
 import ShoeSection from "../components/ShoeExpand";
 import image1 from "../utils/images/4.png";
 import image2 from "../utils/images/5.png";
@@ -25,40 +14,31 @@ import team1 from "../utils/images/team1.jpg";
 import team2 from "../utils/images/team2.jpg";
 import team3 from "../utils/images/team3.png";
 import team4 from "../utils/images/team4.png";
-
 import svg1 from "../utils/icons/fit.svg";
 import svg2 from "../utils/icons/feel.svg";
 import svg3 from "../utils/icons/renew.svg";
 
-import { TypographyProps } from "antd/es/typography/Typography";
-
 const { Text } = Typography;
-interface CenteredTabTitleProps {
-  title: string;
-}
 
-const contentStyle: React.CSSProperties = {
-  maxWidth: "100%",
-  width: "100%",
-};
-
-const { Meta } = Card;
-const { TabPane } = Tabs;
-
-const CenteredTabTitle: React.FC<CenteredTabTitleProps> = ({ title }) => (
+const CenteredTabTitle = ({ title }) => (
   <div className="text-xl lg:text-5xl font-[BRegular] hover:drop-shadow-2xl ">
     {title}
   </div>
 );
 
+const contentStyle = {
+  maxWidth: "100%",
+  width: "100%"
+};
+
+const { Meta } = Card;
+const { TabPane } = Tabs;
+
 const HomePage = () => {
   const [selectedTab, setSelectedTab] = useState("1");
 
-  const handleTabChange = (key: string) => {
+  const handleTabChange = (key) => {
     setSelectedTab(key);
-  };
-  const onChangeSlid = (currentSlide: number) => {
-    console.log(currentSlide);
   };
 
   const getImageForTab = () => {
@@ -68,19 +48,11 @@ const HomePage = () => {
           src={home2}
           alt="home"
           className="w-full h-full max-h-600 max-w-600"
-          // layout="responsive"
         />
       );
     }
     if (selectedTab === "2") {
-      return (
-        <Image
-          src={home1}
-          alt="home"
-          // className="max-h-600 max-w-600"
-          // layout="responsive"
-        />
-      );
+      return <Image src={home1} alt="home" />;
     }
     return null;
   };
@@ -91,7 +63,7 @@ const HomePage = () => {
         className="lg:grid lg:grid-cols-2 my-8"
         style={{
           minHeight: 350,
-          maxHeight: 350,
+          maxHeight: 350
         }}
       >
         <div className="flex justify-center items-center">
@@ -101,7 +73,7 @@ const HomePage = () => {
           <Card
             style={{
               border: "none",
-              textAlign: "center",
+              textAlign: "center"
             }}
           >
             <Tabs
@@ -115,17 +87,6 @@ const HomePage = () => {
                 key="1"
                 className="justify-center items-center"
               >
-                {/* <span>Empower Your Brand</span>
-                <br />
-                Custom Sneakers for Businesses!
-                <span>
-                  . <br />
-                  Design up to three pairs
-                </span>
-                <span>
-                  . <br />
-                  Choose Colors
-                </span> */}
                 <span className=" font-[OBoldItalic]">
                   <br /> and add your logo for a unique touch
                 </span>
@@ -135,18 +96,6 @@ const HomePage = () => {
                 key="2"
                 className=""
               >
-                {/* <span>Effortless Care</span>
-                <br />
-                Door-to-Door Sneaker Cleaning Service
-                <span>
-                  . <br />
-                  No hassle, no worries
-                </span>
-                <span>
-                  . <br />
-                  We pick up your beloved sneakers from your location and return
-                  them sparkling clean
-                </span> */}
                 <span className=" font-[OBoldItalic]">
                   <br /> Our expert team ensures meticulous cleaning, to their
                   pristine condition.
@@ -157,7 +106,6 @@ const HomePage = () => {
         </div>
       </div>
       <h1 className="text-5xl font-[HUltraLight] text-center mt-32 pt-8 ">
-        {/* eslint-disable-next-line react/no-unescaped-entities */}
         What's Included
       </h1>
       <div className=" mt-16 ">
@@ -184,9 +132,6 @@ const HomePage = () => {
           </Col>
         </Row>
       </div>
-      {/* <h1 className="text-5xl font-[HUltraLight] text-center mt-8 pt-8 ">
-        New Releases
-      </h1> */}
       <div className="flex flex-col md:flex-row mt-16">
         <ShoeSection
           imageSrc={image1}
@@ -198,11 +143,6 @@ const HomePage = () => {
           headerText="Adidas"
           backgroundColor="#e1e1e1"
         />
-        {/* <ShoeSection
-          imageSrc={image3}
-          headerText="Treec"
-          backgroundColor="#d0d0d0"
-        /> */}
       </div>
       <Row className="flex justify-around my-16 py-12 text-2xl">
         <Col className="">
@@ -266,19 +206,6 @@ const HomePage = () => {
           <Divider />
         </Col>
       </Row>
-      {/* <div className="mt-2 ">
-        <Carousel afterChange={onChangeSlid} autoplay className="" dots>
-          <div className="">
-            <Image src={before} style={contentStyle} alt="before" />
-          </div>
-          <div>
-            <Image src={before2} style={contentStyle} alt="before2" />
-          </div>
-          <div>
-            <Image src={after} style={contentStyle} alt="after" />
-          </div>
-        </Carousel>
-      </div> */}
       <div className="my-10 flex justify-center">
         <iframe
           className="rounded-2xl"
@@ -291,6 +218,7 @@ const HomePage = () => {
           allowFullScreen
         />
       </div>
+      <div>Highest Demand</div>
     </div>
   );
 };
