@@ -12,12 +12,12 @@ export const product = {
         hotspot: true,
       },
     },
-    {
-      name: "_id",
-      title: "ID",
-      type: "string",
-      readOnly: true,
-    },
+    // {
+    //   name: "id",
+    //   title: "ID",
+    //   type: "string",
+    //   readOnly: true,
+    // },
     {
       name: "name",
       title: "Name",
@@ -40,6 +40,11 @@ export const product = {
     {
       name: "details",
       title: "Details",
+      type: "string",
+    },
+    {
+      name: "brand",
+      title: "Brand",
       type: "string",
     },
   ],

@@ -23,6 +23,7 @@ export interface SanityProduct extends Omit<InventoryProduct, "images"> {
   images: Image[];
   price: number;
   details: string;
+  brand: string;
 }
 
 // export const inventory: InventoryProduct[] = [

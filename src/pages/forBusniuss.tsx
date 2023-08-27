@@ -19,10 +19,12 @@ interface Product {
   image: { url: string }[];
   price: number;
   details: string;
+  brand: string;
 }
 
 function forBusniuss() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
 
   async function fetchProducts() {
     const products = await client?.fetch<Product[]>(
@@ -31,12 +33,16 @@ function forBusniuss() {
       name,
       image,
       price,
-      details
+      details,
+      brand
     }`
     );
     console.log("Fetched products:", products);
     return products;
   }
+  const handleBrandFilter = (brand: string) => {
+    setSelectedBrand(brand);
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -56,12 +62,14 @@ function forBusniuss() {
       <div className="flex items-center justify-center py-4 md:py-8 flex-wrap">
         <button
           type="button"
+          onClick={() => handleBrandFilter("nike")} // Example brand filter
           className="text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:text-white dark:focus:ring-gray-800"
         >
           Nike
         </button>
         <button
           type="button"
+          onClick={() => handleBrandFilter("adidas")} // Example brand filter
           className="text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:text-white dark:focus:ring-gray-800"
         >
           Adidas
@@ -69,27 +77,31 @@ function forBusniuss() {
       </div>
       <div>
         {products.length > 0 ? (
-          <div>
-            {products.map((product) => (
+          products
+            .filter((product) =>
+              selectedBrand ? product.brand === selectedBrand : true
+            )
+            .map((product) => (
               <div key={product._id}>
+                {/* Render product details */}
                 {product.image.map((img, index) => (
-                  <Image
-                    key={index}
-                    className="h-auto max-w-full rounded-lg"
-                    src={urlFor(img).url()}
-                    alt={product.name}
-                    width="100"
-                    height="100"
-                    unoptimized={true}
-                  />
+                  <div key={index}>
+                    <Image
+                      key={index}
+                      className="h-auto max-w-full rounded-lg"
+                      src={urlFor(img).url()}
+                      alt={product.name}
+                      width="100"
+                      height="100"
+                      unoptimized={true}
+                    />
+                  </div>
                 ))}
-
                 <p>{product.name}</p>
                 <p>Price: ${product.price}</p>
                 <p>{product.details}</p>
               </div>
-            ))}
-          </div>
+            ))
         ) : (
           <p>Loading products...</p>
         )}
