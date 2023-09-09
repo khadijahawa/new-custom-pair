@@ -3,11 +3,12 @@ import {
   StarOutlined,
   StarFilled,
   MinusOutlined,
-  PlusOutlined
+  PlusOutlined,
 } from "@ant-design/icons";
 import { client, urlFor } from "../../../sanity/lib/client";
 import ForBusinessProduct from "../../components/ForBusinessProduct";
 import { useStateContext } from "../../../context/StateContext";
+import Image from "next/image";
 
 const ProductDetails = ({ product, products }) => {
   const { image, name, details, price } = product;
@@ -112,13 +113,13 @@ export const getStaticPaths = async () => {
 
   const paths = products.map((product) => ({
     params: {
-      slug: product.slug.current
-    }
+      slug: product.slug.current,
+    },
   }));
 
   return {
     paths,
-    fallback: "blocking"
+    fallback: "blocking",
   };
 };
 
@@ -132,7 +133,7 @@ export const getStaticProps = async ({ params: { slug } }) => {
   // console.log(product);
 
   return {
-    props: { products, product }
+    props: { products, product },
   };
 };
 

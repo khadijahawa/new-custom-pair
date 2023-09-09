@@ -11,12 +11,13 @@ import image1 from "../utils/images/4.png";
 import image2 from "../utils/images/5.png";
 import image3 from "../utils/images/6.png";
 import team1 from "../utils/images/team1.jpg";
-import team2 from "../utils/images/team2.jpg";
+import team2 from "../utils/images/team2.JPG";
 import team3 from "../utils/images/team3.png";
 import team4 from "../utils/images/team4.png";
 import svg1 from "../utils/icons/fit.svg";
 import svg2 from "../utils/icons/feel.svg";
 import svg3 from "../utils/icons/renew.svg";
+import team5 from "../utils/images/johanness.JPG";
 
 const { Text } = Typography;
 
@@ -28,7 +29,7 @@ const CenteredTabTitle = ({ title }) => (
 
 const contentStyle = {
   maxWidth: "100%",
-  width: "100%"
+  width: "100%",
 };
 
 const { Meta } = Card;
@@ -63,7 +64,7 @@ const HomePage = () => {
         className="lg:grid lg:grid-cols-2 my-8"
         style={{
           minHeight: 350,
-          maxHeight: 350
+          maxHeight: 350,
         }}
       >
         <div className="flex justify-center items-center">
@@ -73,7 +74,7 @@ const HomePage = () => {
           <Card
             style={{
               border: "none",
-              textAlign: "center"
+              textAlign: "center",
             }}
           >
             <Tabs
@@ -177,7 +178,13 @@ const HomePage = () => {
       </Row>
       <Row className="flex justify-around my-16 py-12 text-2xl">
         <Col>
-          <Image src={team1} alt="team1" className="rounded-xl " />
+          <Image
+            src={team2}
+            alt="team1"
+            className="rounded-xl "
+            width={750}
+            height={750}
+          />
         </Col>
         <Col className="">
           <div className="my-16">

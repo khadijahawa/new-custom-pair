@@ -2,18 +2,13 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import product1 from "../utils/images/1.jpeg";
-import product2 from "../utils/images/1.png";
-import product3 from "../utils/images/2.png";
-import product4 from "../utils/images/3.png";
-import product5 from "../utils/images/4.png";
-import product6 from "../utils/images/5.png";
+
 import { client, urlFor } from "@/sanity/lib/client";
 import {
   StarOutlined,
   StarFilled,
   MinusOutlined,
-  PlusOutlined
+  PlusOutlined,
 } from "@ant-design/icons";
 import { useStateContext } from "../../context/StateContext";
 import { groq } from "next-sanity";
@@ -23,7 +18,7 @@ function forBusniuss() {
   const [products, setProducts] = useState([]);
   const [index, setIndex] = useState(0);
   const [selectedBrand, setSelectedBrand] = useState(null);
-  // const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
+  const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
 
   async function fetchProducts() {
     const products = await client?.fetch(

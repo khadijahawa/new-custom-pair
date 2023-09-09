@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 import { urlFor } from "../../sanity/lib/client";
 
@@ -8,12 +9,13 @@ const ForBusinessProduct = ({ product }) => {
     <div>
       <Link href={`/product/${product.slug.current}`}>
         <div className="product-card">
-          <img
+          <Image
             src={urlFor(product.image[0]).url()}
             width={250}
             height={250}
             className="product-image"
-            alt={product.name} // Don't forget to add alt text for accessibility
+            alt={product.name}
+            unoptimized={true}
           />
           <p className="product-name">{product.name}</p>
           <p className="product-price">${product.price}</p>
