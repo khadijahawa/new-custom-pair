@@ -27,15 +27,6 @@ export const product = {
       type: "string"
     },
     {
-      name: "slug",
-      title: "Slug",
-      type: "slug",
-      options: {
-        source: "name",
-        maxLength: 90
-      }
-    },
-    {
       name: "price",
       title: "Price",
       type: "number"

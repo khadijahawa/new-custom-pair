@@ -9,38 +9,46 @@ export const StateContext = ({ children }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQuantities, setTotalQuantities] = useState(0);
   const [qty, setQty] = useState(1);
+  const [cleaningRequest, setCleaningRequest] = useState(null); // Add cleaningRequest state
 
   let foundProduct;
 
   const onAdd = (product, quantity) => {
-    const checkProductInCart = cartItems.find(
-      (item) => item._id === product._id
-    );
-
-    setTotalPrice(
-      (prevTotalPrice) => prevTotalPrice + product.price * quantity
-    );
-    setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity);
-
-    if (checkProductInCart) {
-      const updatedCartItems = cartItems.map((cartProduct) => {
-        if (cartProduct._id === product._id)
-          return {
-            ...cartProduct,
-            quantity: cartProduct.quantity + quantity
-          };
-      });
-
-      setCartItems(updatedCartItems);
+    // Check if the product is a cleaning request
+    if (product._type === "cleaning") {
+      setCleaningRequest(product);
     } else {
-      product.quantity = quantity;
+      const checkProductInCart = cartItems.find(
+        (item) => item._id === product._id
+      );
 
-      setCartItems([...cartItems, { ...product }]);
+      setTotalPrice(
+        (prevTotalPrice) => prevTotalPrice + product.price * quantity
+      );
+      setTotalQuantities(
+        (prevTotalQuantities) => prevTotalQuantities + quantity
+      );
+
+      if (checkProductInCart) {
+        const updatedCartItems = cartItems.map((cartProduct) => {
+          if (cartProduct._id === product._id)
+            return {
+              ...cartProduct,
+              quantity: cartProduct.quantity + quantity
+            };
+          return cartProduct; // Return unchanged items
+        });
+
+        setCartItems(updatedCartItems);
+      } else {
+        product.quantity = quantity;
+
+        setCartItems([...cartItems, { ...product }]);
+      }
+
+      toast.success(`${quantity} ${product.name} added to the cart.`);
     }
-
-    toast.success(`${qty} ${product.name} added to the cart.`);
   };
-
   const onRemove = (product) => {
     foundProduct = cartItems.find((item) => item._id === product._id);
     const newCartItems = cartItems.filter((item) => item._id !== product._id);
@@ -107,7 +115,9 @@ export const StateContext = ({ children }) => {
         onRemove,
         setCartItems,
         setTotalPrice,
-        setTotalQuantities
+        setTotalQuantities,
+        cleaningRequest,
+        setCleaningRequest
       }}
     >
       {children}

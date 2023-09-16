@@ -21,7 +21,8 @@ const Cart = () => {
     cartItems,
     setShowCart,
     toggleCartItemQuanitity,
-    onRemove
+    onRemove,
+    cleaningRequest
   } = useStateContext();
 
   const handleCheckout = async () => {
@@ -32,7 +33,7 @@ const Cart = () => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(cartItems)
+      body: JSON.stringify([...cartItems, cleaningRequest])
     });
 
     if (response.statusCode === 500) return;
@@ -56,7 +57,7 @@ const Cart = () => {
           <span className="cart-num-items">({totalQuantities} items)</span>
         </button>
 
-        {cartItems.length < 1 && (
+        {cartItems.length < 1 && !cleaningRequest ? ( // Check if cleaningRequest exists
           <div className="empty-cart">
             <ShoppingOutlined size={150} />
             <h3>Your shopping bag is empty</h3>
@@ -70,11 +71,11 @@ const Cart = () => {
               </button>
             </Link>
           </div>
-        )}
+        ) : null}
 
         <div className="product-container">
-          {cartItems.length >= 1 &&
-            cartItems.map((item) => (
+          {cartItems?.length >= 1 &&
+            cartItems?.map((item) => (
               <div className="product" key={item._id}>
                 <img
                   src={urlFor(item?.image[0])}
@@ -121,6 +122,26 @@ const Cart = () => {
               </div>
             ))}
         </div>
+        {cleaningRequest && (
+          <div className="product" key={cleaningRequest._id}>
+            {/* Customize the display for the cleaning request */}
+            {/* For example, you can display date, time, and address */}
+            <div className="item-desc">
+              <div className="flex top">
+                <h5>Cleaning Request</h5>
+              </div>
+              <div className="flex bottom">
+                <div>
+                  {/* Display date, time, and address */}
+                  <p className="quantity-desc">
+                    <span>Date: {cleaningRequest.dateTime}</span>
+                    <span>Address: {cleaningRequest.address}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         {cartItems.length >= 1 && (
           <div className="cart-bottom">
             <div className="total">

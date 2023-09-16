@@ -40,7 +40,7 @@ const Header = () => {
     {
       key: "sub1",
       label: "Shop",
-      icon: <ShoppingOutlined />,
+      // icon: <ShoppingOutlined />,
       children: [
         {
           key: "2",
@@ -53,8 +53,8 @@ const Header = () => {
             >
               For Business
             </Link>
-          ),
-          icon: <ShopOutlined />
+          )
+          // icon: <ShopOutlined />
         },
         {
           key: "3",
@@ -67,8 +67,8 @@ const Header = () => {
             >
               Cleaning
             </Link>
-          ),
-          icon: <ClearOutlined />
+          )
+          // icon: <ClearOutlined />
         }
       ]
     },
@@ -83,8 +83,8 @@ const Header = () => {
         >
           Contact Us
         </Link>
-      ),
-      icon: <DisconnectOutlined />
+      )
+      // icon: <DisconnectOutlined />
     },
     {
       key: "5",
@@ -92,8 +92,8 @@ const Header = () => {
         <Link href="/" passHref onClick={closeMenu} className="font-[BRegular]">
           About Custom Pair
         </Link>
-      ),
-      icon: <MobileOutlined />
+      )
+      // icon: <MobileOutlined />
     },
     {
       key: "6",
@@ -169,7 +169,6 @@ const Header = () => {
             selectedKeys={[current]}
             onClick={onClickDesktop}
             style={{ minWidth: "500px", borderBottom: "none" }}
-            className="header-menu"
           />
         </div>
       </div>

@@ -12,10 +12,6 @@
   /* color: #01562f !important; */
 }
 
-.ant-tabs-nav .ant-tabs-tab {
-  color: #00000094;
-}
-
 .ant-tabs-nav .ant-tabs-tab:hover {
   color: #000000 !important;
 }
@@ -43,4 +39,25 @@
 .ant-menu-horizontal > .ant-menu-item:hover {
   border-bottom: none !important;
   border: none;
+}
+
+/* Ant Menu */
+
+.ant-menu-item-selected::after {
+  content: none;
+  border-bottom: none !important;
+}
+
+.ant-menu-item:hover::after {
+  content: none;
+  border-bottom: none !important;
+}
+.ant-menu-item-selected {
+  border-bottom: none !important;
+  /* color: black !important; */
+}
+
+.ant-menu-item:hover {
+  border-bottom: none !important;
+  /* color: black !important; */
 }

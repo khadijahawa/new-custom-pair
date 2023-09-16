@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "sanity.cli.js", "sanity.config.js", "sanity/env.js", "sanity/schema.js", "sanity/lib/image.js", "sanity/lib/client.js", "src/pages/index.js", "src/pages/forBusniuss.js", "src/pages/contact.js", "src/pages/cleaning.js", "src/pages/about.js", "src/pages/_app.js", "src/pages/product/[slug].js", "src/components/ShoeExpand.js", "src/components/Header.js", "src/components/ForBusinessProduct.js", "src/components/Cart.js", "src/components/AppFooter.js", "sanity/schemas/product.js", "sanity/schemas/designs.js", "context/StateContext.js"],
   "exclude": ["node_modules"]
 }

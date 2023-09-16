@@ -18,6 +18,8 @@ import svg1 from "../utils/icons/fit.svg";
 import svg2 from "../utils/icons/feel.svg";
 import svg3 from "../utils/icons/renew.svg";
 import team5 from "../utils/images/johanness.JPG";
+import ForBusinessProduct from "../components/ForBusinessProduct";
+import { client } from "@/sanity/lib/client";
 
 const { Text } = Typography;
 
@@ -29,13 +31,13 @@ const CenteredTabTitle = ({ title }) => (
 
 const contentStyle = {
   maxWidth: "100%",
-  width: "100%",
+  width: "100%"
 };
 
 const { Meta } = Card;
 const { TabPane } = Tabs;
 
-const HomePage = () => {
+const HomePage = ({ products }) => {
   const [selectedTab, setSelectedTab] = useState("1");
 
   const handleTabChange = (key) => {
@@ -64,7 +66,7 @@ const HomePage = () => {
         className="lg:grid lg:grid-cols-2 my-8"
         style={{
           minHeight: 350,
-          maxHeight: 350,
+          maxHeight: 350
         }}
       >
         <div className="flex justify-center items-center">
@@ -74,7 +76,7 @@ const HomePage = () => {
           <Card
             style={{
               border: "none",
-              textAlign: "center",
+              textAlign: "center"
             }}
           >
             <Tabs
@@ -225,9 +227,29 @@ const HomePage = () => {
           allowFullScreen
         />
       </div>
-      <div>Highest Demand</div>
+      {/* <div className="products-heading"> */}
+      <h1 className="text-5xl font-[HUltraLight] text-center my-32 pt-8 ">
+        Highest Demand
+      </h1>
+      {/* <p>speaker There are many variations passages</p> */}
+      {/* </div> */}
+
+      <div className="products-container my-32">
+        {products?.map((product) => (
+          <ForBusinessProduct key={product._id} product={product} />
+        ))}
+      </div>
     </div>
   );
+};
+
+export const getServerSideProps = async () => {
+  const query = '*[_type == "product"]';
+  const products = await client.fetch(query);
+
+  return {
+    props: { products }
+  };
 };
 
 export default HomePage;
