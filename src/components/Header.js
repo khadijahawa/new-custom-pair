@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Menu } from "antd";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import menuIcon from "../utils/icons/bytesize_menu.svg";
 import logo1 from "../utils/images/logo1.png";
 import Link from "next/link";
 import {
@@ -12,7 +11,8 @@ import {
   ShopOutlined,
   ClearOutlined,
   DisconnectOutlined,
-  ShoppingCartOutlined
+  ShoppingCartOutlined,
+  MenuUnfoldOutlined
 } from "@ant-design/icons";
 import styles from "./styles.module.css";
 import "../styles/tabs.css";
@@ -144,7 +144,7 @@ const Header = () => {
           className="mr-2 text-xl"
           aria-label="Toggle Menu"
         >
-          <Image src={menuIcon} alt="menu" />
+          <MenuUnfoldOutlined />
         </button>
         <div
           className={`${

@@ -29,6 +29,8 @@ function forBusniuss() {
       slug,
       price,
       details,
+      size,
+      color,
       brand
     }`
     );
@@ -54,37 +56,7 @@ function forBusniuss() {
 
   return (
     <div>
-      <div className="flex items-center justify-center py-4 md:py-8 flex-wrap">
-        <button
-          type="button"
-          className="text-black-700 border border-black-200 bg-white hover:ring-black-800 hover:text-black-400 focus:ring-2 focus:outline-none focus:ring-black-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:border-black-500 dark:text-black-500 dark:hover:text-white dark:hover:bg-black-500 dark:bg-black-900 dark:focus:ring-black-800"
-          onClick={() => handleBrandFilter(null)}
-        >
-          All Brands
-        </button>
-
-        <button
-          type="button"
-          onClick={() => handleBrandFilter("nike")}
-          className="text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:text-white dark:focus:ring-gray-800"
-        >
-          Nike
-        </button>
-        <button
-          type="button"
-          onClick={() => handleBrandFilter("adidas")}
-          className="text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:text-white dark:focus:ring-gray-800"
-        >
-          Adidas
-        </button>
-        <button
-          type="button"
-          onClick={() => handleBrandFilter("adidas")}
-          className="text-gray-900 border border-white hover:border-gray-200 dark:border-gray-900 dark:bg-gray-900 dark:hover:border-gray-700 bg-white focus:ring-4 focus:outline-none focus:ring-gray-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3 dark:text-white dark:focus:ring-gray-800"
-        >
-          Treec
-        </button>
-      </div>
+      {/* <div className="flex items-center justify-center py-4 md:py-8 flex-wrap"></div> */}
       <div className="product-detail-container">
         {products.length > 0 ? (
           products

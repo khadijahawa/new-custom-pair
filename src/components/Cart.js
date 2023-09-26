@@ -33,7 +33,7 @@ const Cart = () => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify([...cartItems, cleaningRequest])
+      body: JSON.stringify([...cartItems])
     });
 
     if (response.statusCode === 500) return;
@@ -57,7 +57,7 @@ const Cart = () => {
           <span className="cart-num-items">({totalQuantities} items)</span>
         </button>
 
-        {cartItems.length < 1 && !cleaningRequest ? ( // Check if cleaningRequest exists
+        {cartItems.length < 1 && !cleaningRequest ? (
           <div className="empty-cart">
             <ShoppingOutlined size={150} />
             <h3>Your shopping bag is empty</h3>
@@ -77,6 +77,7 @@ const Cart = () => {
           {cartItems?.length >= 1 &&
             cartItems?.map((item) => (
               <div className="product" key={item._id}>
+                {console.log("item", cartItems)}
                 <img
                   src={urlFor(item?.image[0])}
                   className="cart-product-image"
@@ -85,6 +86,7 @@ const Cart = () => {
                   <div className="flex top">
                     <h5>{item.name}</h5>
                     <h4>${item.price}</h4>
+                    <h4> Size: {item.selectedSize}</h4>
                   </div>
                   <div className="flex bottom">
                     <div>
@@ -124,18 +126,18 @@ const Cart = () => {
         </div>
         {cleaningRequest && (
           <div className="product" key={cleaningRequest._id}>
-            {/* Customize the display for the cleaning request */}
-            {/* For example, you can display date, time, and address */}
             <div className="item-desc">
               <div className="flex top">
                 <h5>Cleaning Request</h5>
               </div>
               <div className="flex bottom">
                 <div>
-                  {/* Display date, time, and address */}
                   <p className="quantity-desc">
                     <span>Date: {cleaningRequest.dateTime}</span>
                     <span>Address: {cleaningRequest.address}</span>
+                    <span>Quantity: {cleaningRequest.quantity}</span>
+                    <span>Additional Details: {cleaningRequest.details}</span>
+                    {/* <span>Additional Details: {cleaningRequest.details}</span> */}
                   </p>
                 </div>
               </div>

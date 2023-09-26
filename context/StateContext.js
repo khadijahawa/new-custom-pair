@@ -7,14 +7,15 @@ export const StateContext = ({ children }) => {
   const [showCart, setShowCart] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
   const [totalQuantities, setTotalQuantities] = useState(0);
   const [qty, setQty] = useState(1);
-  const [cleaningRequest, setCleaningRequest] = useState(null); // Add cleaningRequest state
+  const [cleaningRequest, setCleaningRequest] = useState(null);
 
   let foundProduct;
 
-  const onAdd = (product, quantity) => {
-    // Check if the product is a cleaning request
+  const onAdd = (product, quantity, selectedSize) => {
     if (product._type === "cleaning") {
       setCleaningRequest(product);
     } else {
@@ -34,15 +35,18 @@ export const StateContext = ({ children }) => {
           if (cartProduct._id === product._id)
             return {
               ...cartProduct,
-              quantity: cartProduct.quantity + quantity
+              quantity: cartProduct.quantity + quantity,
+              selectedSize,
+              selectedColor
             };
-          return cartProduct; // Return unchanged items
+          return cartProduct;
         });
 
         setCartItems(updatedCartItems);
       } else {
         product.quantity = quantity;
-
+        product.selectedSize = selectedSize;
+        product.selectedColor = selectedColor;
         setCartItems([...cartItems, { ...product }]);
       }
 
@@ -116,6 +120,10 @@ export const StateContext = ({ children }) => {
         setCartItems,
         setTotalPrice,
         setTotalQuantities,
+        selectedSize,
+        setSelectedSize,
+        selectedColor,
+        setSelectedColor,
         cleaningRequest,
         setCleaningRequest
       }}

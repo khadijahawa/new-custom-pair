@@ -11,8 +11,8 @@ const ForBusinessProduct = ({ product }) => {
         <div className="product-card">
           <Image
             src={urlFor(product.image[0]).url()}
-            width={250}
-            height={250}
+            width={350}
+            height={350}
             className="product-image"
             alt={product.name}
             unoptimized={true}

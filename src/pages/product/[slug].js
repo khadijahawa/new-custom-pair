@@ -1,25 +1,107 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StarOutlined,
   StarFilled,
   MinusOutlined,
-  PlusOutlined,
+  PlusOutlined
 } from "@ant-design/icons";
 import { client, urlFor } from "../../../sanity/lib/client";
 import ForBusinessProduct from "../../components/ForBusinessProduct";
 import { useStateContext } from "../../../context/StateContext";
+import { BlockPicker, CirclePicker } from "react-color";
+
+import Sneakers from "@/src/components/Sneakers";
 import Image from "next/image";
 
 const ProductDetails = ({ product, products }) => {
-  const { image, name, details, price } = product;
+  const { image, name, details, price, size } = product;
   const [index, setIndex] = useState(0);
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedColor, setSelectedColor] = useState("#37d67a");
+  const [hueRotation, setHueRotation] = useState(0);
+
   const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
 
   const handleBuyNow = () => {
-    onAdd(product, qty);
+    // onAdd(product, qty);
+
+    // setShowCart(true);
+
+    if (!selectedSize) {
+      alert("Please select a size before buying.");
+      return;
+    }
+    onAdd(product, qty, selectedSize);
 
     setShowCart(true);
   };
+
+  const handleSizeChange = (size) => {
+    setSelectedSize(size);
+  };
+  const handleColorChange = (color) => {
+    setSelectedColor(color.hex);
+  };
+  function hexToHSL(hex) {
+    let r = (hex >> 16) & 255;
+    let g = (hex >> 8) & 255;
+    let b = hex & 255;
+
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    let max = Math.max(r, g, b);
+    let min = Math.min(r, g, b);
+
+    let h,
+      s,
+      l = (max + min) / 2;
+
+    if (max === min) {
+      h = s = 0; // grayscale
+    } else {
+      let d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r:
+          h = (g - b) / d + (g < b ? 6 : 0);
+          break;
+        case g:
+          h = (b - r) / d + 2;
+          break;
+        case b:
+          h = (r - g) / d + 4;
+          break;
+      }
+      h /= 6;
+    }
+
+    return {
+      h: Math.round(h * 360),
+      s: Math.round(s * 100),
+      l: Math.round(l * 100)
+    };
+  }
+  useEffect(() => {
+    // console.log("selectedColor:", selectedColor);
+
+    // Check if selectedColor is a valid color string
+    if (/^#[0-9A-Fa-f]{6}$/i.test(selectedColor)) {
+      // Remove the '#' character and convert the remaining string to a number
+      const colorValue = parseInt(selectedColor.slice(1), 16);
+
+      // Calculate hue rotation based on colorValue
+      const hslColor = hexToHSL(colorValue);
+      const hueValue = hslColor.h / 360;
+
+      setHueRotation(hueValue);
+    } else {
+      console.error("Invalid color format:", selectedColor);
+    }
+  }, [selectedColor]);
+
+  // console.log("hueRotation", hueRotation);
 
   return (
     <div>
@@ -29,6 +111,7 @@ const ProductDetails = ({ product, products }) => {
             <img
               src={urlFor(image && image[index])}
               className="product-detail-image"
+              style={{ filter: `hue-rotate(${hueRotation}turn)` }}
             />
           </div>
           <div className="small-images-container">
@@ -50,17 +133,17 @@ const ProductDetails = ({ product, products }) => {
           <div className="reviews">
             <div>
               <StarOutlined />
-              <StarOutlined />
-              <StarOutlined />
-              <StarOutlined />
+              <StarFilled />
+              <StarFilled />
+              <StarFilled />
               <StarFilled />
             </div>
             <p>(20)</p>
           </div>
-          <h4>Details: </h4>
+          <h4>Details:</h4>
           <p>{details}</p>
           <p className="price">${price}</p>
-          <div className="quantity">
+          {/* <div className="quantity">
             <h3>Quantity:</h3>
             <p className="quantity-desc">
               <span className="minus" onClick={decQty}>
@@ -71,12 +154,37 @@ const ProductDetails = ({ product, products }) => {
                 <PlusOutlined />
               </span>
             </p>
+          </div> */}
+          <div className="size-selection">
+            <h3>Select Size:</h3>
+            <div className="size-options">
+              {size.map((availableSize, i) => (
+                <label key={i} className="size-option">
+                  <input
+                    type="radio"
+                    value={availableSize}
+                    checked={selectedSize === availableSize}
+                    onChange={() => handleSizeChange(availableSize)}
+                  />
+                  <span className="size-label">{availableSize}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          <div className="blockpicker">
+            <h6 className="mt-3">Choose a color for the whoosh</h6>
+            {/* Div to display the color  */}
+            <CirclePicker
+              color={selectedColor}
+              onChange={handleColorChange}
+              className="mt-3"
+            />
           </div>
           <div className="buttons">
             <button
               type="button"
               className="add-to-cart"
-              onClick={() => onAdd(product, qty)}
+              onClick={() => onAdd(product, qty, selectedSize)}
             >
               Add to Cart
             </button>
@@ -87,7 +195,7 @@ const ProductDetails = ({ product, products }) => {
         </div>
       </div>
 
-      <div className="maylike-products-wrapper">
+      {/* <div className="maylike-products-wrapper">
         <h2>You may also like</h2>
         <div className="marquee">
           <div className="maylike-products-container track">
@@ -96,7 +204,7 @@ const ProductDetails = ({ product, products }) => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -113,13 +221,13 @@ export const getStaticPaths = async () => {
 
   const paths = products.map((product) => ({
     params: {
-      slug: product.slug.current,
-    },
+      slug: product.slug.current
+    }
   }));
 
   return {
     paths,
-    fallback: "blocking",
+    fallback: "blocking"
   };
 };
 
@@ -130,10 +238,8 @@ export const getStaticProps = async ({ params: { slug } }) => {
   const product = await client.fetch(query);
   const products = await client.fetch(productsQuery);
 
-  // console.log(product);
-
   return {
-    props: { products, product },
+    props: { products, product }
   };
 };
 

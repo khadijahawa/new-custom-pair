@@ -9,15 +9,13 @@ import { Card, Tabs, Col, Row, Divider, Typography } from "antd";
 import ShoeSection from "../components/ShoeExpand";
 import image1 from "../utils/images/4.png";
 import image2 from "../utils/images/5.png";
-import image3 from "../utils/images/6.png";
+import image3 from "../utils/images/Treec_-_01-removebg-preview.png";
 import team1 from "../utils/images/team1.jpg";
 import team2 from "../utils/images/team2.JPG";
-import team3 from "../utils/images/team3.png";
-import team4 from "../utils/images/team4.png";
+
 import svg1 from "../utils/icons/fit.svg";
 import svg2 from "../utils/icons/feel.svg";
 import svg3 from "../utils/icons/renew.svg";
-import team5 from "../utils/images/johanness.JPG";
 import ForBusinessProduct from "../components/ForBusinessProduct";
 import { client } from "@/sanity/lib/client";
 
@@ -144,6 +142,11 @@ const HomePage = ({ products }) => {
         <ShoeSection
           imageSrc={image2}
           headerText="Adidas"
+          backgroundColor="#e1e1e1"
+        />
+        <ShoeSection
+          imageSrc={image3}
+          headerText="Custimized"
           backgroundColor="#e1e1e1"
         />
       </div>

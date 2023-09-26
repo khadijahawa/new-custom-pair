@@ -32,6 +32,17 @@ export const product = {
       type: "number"
     },
     {
+      name: "size",
+      title: "Size",
+      type: "array",
+      of: [{ type: "number" }]
+    },
+    {
+      name: "color",
+      title: "Color",
+      type: "string"
+    },
+    {
       name: "details",
       title: "Details",
       type: "string"
