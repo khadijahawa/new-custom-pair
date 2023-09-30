@@ -99,7 +99,7 @@ const HomePage = ({ products }) => {
               >
                 <span className=" font-[OBoldItalic]">
                   <br /> Our expert team ensures meticulous cleaning, to their
-                  pristine condition.
+                  pristine condition
                 </span>
               </TabPane>
             </Tabs>
