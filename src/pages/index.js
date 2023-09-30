@@ -98,8 +98,8 @@ const HomePage = ({ products }) => {
                 className=""
               >
                 <span className=" font-[OBoldItalic]">
-                  <br /> Our expert team ensures meticulous cleaning&apos;, to
-                  their pristine condition
+                  <br /> Our expert team ensures meticulous cleaning to their
+                  pristine condition
                 </span>
               </TabPane>
             </Tabs>
@@ -107,7 +107,7 @@ const HomePage = ({ products }) => {
         </div>
       </div>
       <h1 className="text-5xl font-[HUltraLight] text-center mt-32 pt-8 ">
-        What's Included
+        What&apos;s Included
       </h1>
       <div className=" mt-16 ">
         <Row className="flex justify-center md:justify-around drop-shadow-2xl text-center font-bold gap-4 md:gap-0">
