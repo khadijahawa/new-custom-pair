@@ -98,8 +98,8 @@ const HomePage = ({ products }) => {
                 className=""
               >
                 <span className=" font-[OBoldItalic]">
-                  <br /> Our expert team ensures meticulous cleaning, to their
-                  pristine condition
+                  <br /> Our expert team ensures meticulous cleaning&apos;, to
+                  their pristine condition
                 </span>
               </TabPane>
             </Tabs>
