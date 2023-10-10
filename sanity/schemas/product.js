@@ -37,11 +37,7 @@ export const product = {
       type: "array",
       of: [{ type: "number" }]
     },
-    {
-      name: "color",
-      title: "Color",
-      type: "string"
-    },
+
     {
       name: "details",
       title: "Details",
@@ -51,6 +47,28 @@ export const product = {
       name: "brand",
       title: "Brand",
       type: "string"
+    },
+    {
+      name: "customizedData",
+      title: "Customized Data",
+      type: "object",
+      fields: [
+        {
+          name: "logoImage",
+          title: "Logo Image",
+          type: "image"
+        },
+        {
+          name: "nikeSwooshColor",
+          title: "Nike Swoosh Color",
+          type: "string"
+        },
+        {
+          name: "logoDesignPrice",
+          title: "Logo Design Price",
+          type: "number"
+        }
+      ]
     }
   ]
 };

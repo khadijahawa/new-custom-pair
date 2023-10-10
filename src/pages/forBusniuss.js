@@ -1,7 +1,7 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router"; // Import the useRouter hook
 
 import { client, urlFor } from "@/sanity/lib/client";
 import {
@@ -14,11 +14,11 @@ import { useStateContext } from "../../context/StateContext";
 import { groq } from "next-sanity";
 import ForBusinessProduct from "../components/ForBusinessProduct";
 
-function forBusniuss() {
+function ForBusiness() {
   const [products, setProducts] = useState([]);
   const [index, setIndex] = useState(0);
-  const [selectedBrand, setSelectedBrand] = useState(null);
   const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
+  const router = useRouter(); // Initialize the useRouter
 
   async function fetchProducts() {
     const products = await client?.fetch(
@@ -37,8 +37,17 @@ function forBusniuss() {
     console.log("Fetched products:", products);
     return products;
   }
-  const handleBrandFilter = (brand) => {
-    setSelectedBrand(brand);
+
+  const handleProductClick = (slug, brand) => {
+    let path = "";
+    if (brand === "adidas") {
+      path = `/product/${slug}`;
+    } else if (brand === "nike") {
+      path = `/product/${slug}`;
+    } else if (brand === "treec") {
+      path = `/product/${slug}`;
+    }
+    router.push(path);
   };
 
   useEffect(() => {
@@ -56,16 +65,28 @@ function forBusniuss() {
 
   return (
     <div>
-      {/* <div className="flex items-center justify-center py-4 md:py-8 flex-wrap"></div> */}
       <div className="product-detail-container">
         {products.length > 0 ? (
-          products
-            .filter((product) =>
-              selectedBrand ? product.brand === selectedBrand : true
-            )
-            .map((product) => (
-              <ForBusinessProduct key={product._id} product={product} />
-            ))
+          products.map((product) => (
+            <div
+              key={product._id}
+              className="product-card"
+              onClick={() =>
+                handleProductClick(product.slug.current, product.brand)
+              }
+            >
+              <Image
+                src={urlFor(product.image[0]).url()}
+                width={350}
+                height={350}
+                className="product-image"
+                alt={product.name}
+                unoptimized={true}
+              />
+              <p className="product-name">{product.name}</p>
+              <p className="product-price">${product.price}</p>
+            </div>
+          ))
         ) : (
           <p>Loading products...</p>
         )}
@@ -74,4 +95,4 @@ function forBusniuss() {
   );
 }
 
-export default forBusniuss;
+export default ForBusiness;

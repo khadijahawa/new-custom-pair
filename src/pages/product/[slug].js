@@ -1,26 +1,52 @@
 import React, { useState, useEffect } from "react";
-import {
-  StarOutlined,
-  StarFilled,
-  MinusOutlined,
-  PlusOutlined
-} from "@ant-design/icons";
+import { useRouter } from "next/router";
+
+// import {
+//   StarOutlined,
+//   StarFilled,
+//   MinusOutlined,
+//   PlusOutlined
+// } from "@ant-design/icons";
 import { client, urlFor } from "../../../sanity/lib/client";
 import ForBusinessProduct from "../../components/ForBusinessProduct";
 import { useStateContext } from "../../../context/StateContext";
 import { BlockPicker, CirclePicker } from "react-color";
 
-import Sneakers from "@/src/components/Sneakers";
+import AdidasCustomization from "../../components/AdidasCustomization";
+import NikeCustomization from "../../components/NikeCustomization";
+import CustomCustomization from "../../components/CustomCustomization";
+// import Preview from "../../components/SneakerCustomization";
+
 import Image from "next/image";
 
 const ProductDetails = ({ product, products }) => {
   const { image, name, details, price, size } = product;
   const [index, setIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
-  const [selectedColor, setSelectedColor] = useState("#37d67a");
   const [hueRotation, setHueRotation] = useState(0);
-
+  // const [selectedBrand, setSelectedBrand] = useState("nike");
+  const [selectedColor, setSelectedColor] = useState("#37d67a");
+  const [selectedColors, setSelectedColors] = useState({
+    toe: "#37d67a",
+    heel: "#000000",
+    sole: "#ffffff"
+    // Add more shoe parts and default colors as needed
+  });
+  const [uploadedImage, setUploadedImage] = useState(null);
   const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
+
+  const renderCustomizationComponent = () => {
+    switch (product.brand) {
+      case "adidas":
+        return <AdidasCustomization product={product} />;
+      case "nike":
+        return <NikeCustomization product={product} />;
+      case "treec":
+        return <CustomCustomization product={product} />;
+      default:
+        return null;
+    }
+  };
 
   const handleBuyNow = () => {
     // onAdd(product, qty);
@@ -39,73 +65,36 @@ const ProductDetails = ({ product, products }) => {
   const handleSizeChange = (size) => {
     setSelectedSize(size);
   };
+
   const handleColorChange = (color) => {
-    setSelectedColor(color.hex);
+    setSelectedColor(color);
   };
-  function hexToHSL(hex) {
-    let r = (hex >> 16) & 255;
-    let g = (hex >> 8) & 255;
-    let b = hex & 255;
 
-    r /= 255;
-    g /= 255;
-    b /= 255;
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    setUploadedImage(file);
+  };
+  // const router = useRouter();
+  // const { brand } = router.query;
+  // console.log("brand", selectedBrand);
+  // useEffect(() => {
+  //   if (brand) {
+  //     setSelectedBrand(brand);
+  //   }
+  // }, [brand]);
 
-    let max = Math.max(r, g, b);
-    let min = Math.min(r, g, b);
+  const router = useRouter();
+  const { brand } = router.query;
 
-    let h,
-      s,
-      l = (max + min) / 2;
-
-    if (max === min) {
-      h = s = 0; // grayscale
-    } else {
-      let d = max - min;
-      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-      switch (max) {
-        case r:
-          h = (g - b) / d + (g < b ? 6 : 0);
-          break;
-        case g:
-          h = (b - r) / d + 2;
-          break;
-        case b:
-          h = (r - g) / d + 4;
-          break;
-      }
-      h /= 6;
-    }
-
-    return {
-      h: Math.round(h * 360),
-      s: Math.round(s * 100),
-      l: Math.round(l * 100)
-    };
-  }
   useEffect(() => {
-    // console.log("selectedColor:", selectedColor);
-
-    // Check if selectedColor is a valid color string
-    if (/^#[0-9A-Fa-f]{6}$/i.test(selectedColor)) {
-      // Remove the '#' character and convert the remaining string to a number
-      const colorValue = parseInt(selectedColor.slice(1), 16);
-
-      // Calculate hue rotation based on colorValue
-      const hslColor = hexToHSL(colorValue);
-      const hueValue = hslColor.h / 360;
-
-      setHueRotation(hueValue);
-    } else {
-      console.error("Invalid color format:", selectedColor);
+    if (brand) {
+      setSelectedBrand(brand);
     }
-  }, [selectedColor]);
-
-  // console.log("hueRotation", hueRotation);
+  }, [brand]);
 
   return (
     <div>
-      <div className="product-detail-container">
+      <div className="product-detail-container ">
         <div>
           <div className="image-container">
             <img
@@ -130,17 +119,6 @@ const ProductDetails = ({ product, products }) => {
 
         <div className="product-detail-desc">
           <h1>{name}</h1>
-          <div className="reviews">
-            <div>
-              <StarOutlined />
-              <StarFilled />
-              <StarFilled />
-              <StarFilled />
-              <StarFilled />
-            </div>
-            <p>(20)</p>
-          </div>
-          <h4>Details:</h4>
           <p>{details}</p>
           <p className="price">${price}</p>
           {/* <div className="quantity">
@@ -165,21 +143,23 @@ const ProductDetails = ({ product, products }) => {
                     value={availableSize}
                     checked={selectedSize === availableSize}
                     onChange={() => handleSizeChange(availableSize)}
+                    className=""
                   />
                   <span className="size-label">{availableSize}</span>
                 </label>
               ))}
             </div>
           </div>
-          <div className="blockpicker">
-            <h6 className="mt-3">Choose a color for the whoosh</h6>
-            {/* Div to display the color  */}
-            <CirclePicker
-              color={selectedColor}
-              onChange={handleColorChange}
-              className="mt-3"
-            />
-          </div>
+          {renderCustomizationComponent(product)}
+
+          {/* Render the live preview */}
+          {/* <Preview
+            selectedBrand={selectedBrand}
+            selectedColor={selectedColor}
+            selectedColors={selectedColors}
+            uploadedImage={uploadedImage}
+          /> */}
+
           <div className="buttons">
             <button
               type="button"
