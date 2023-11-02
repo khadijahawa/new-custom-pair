@@ -1,13 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // webpack: (config, options) => {
-  //   config.module.rules.push({
-  //     test: /\.svg$/,
-  //     use: ["@svgr/webpack", "url-loader"]
-  //   });
-  //   return config;
-  // }
-
   webpack: (config) => {
     config.externals.push({
       "utf-8-validate": "commonjs utf-8-validate",

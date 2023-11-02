@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Upload, Button, Slider, Radio, Modal, Col, Row, Switch } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import adidas1 from "../utils/images/stan-heel.jpeg";
+import Adidas from "../utils/svgs/stan-heel.svg";
 import Image from "next/image";
+import html2canvas from "html2canvas";
 
 const AdidasCustomization = () => {
   const [logoImage, setLogoImage] = useState(null);
@@ -15,6 +16,19 @@ const AdidasCustomization = () => {
   const [horizontalPosition, setHorizontalPosition] = useState(0);
   const [hueRotation, setHueRotation] = useState(0);
   const [removingBackground, setRemovingBackground] = useState(false);
+  const [screenshotURL, setScreenshotURL] = useState(null);
+
+  const handleSC = async () => {
+    const whatWeWant = document.getElementById("modal-container");
+    const finalImage = await html2canvas(whatWeWant);
+    const dataUrl = finalImage.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = "screenshot.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
 
   const handleImageUpload = (file) => {
     setLogoImage(URL.createObjectURL(file));
@@ -50,9 +64,8 @@ const AdidasCustomization = () => {
               .then((resultBlob) => {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                  // Set the processed image URL to logoImage state
                   setLogoImage(reader.result);
-                  setRemovingBackground(false); // Clear the background removal flag
+                  setRemovingBackground(false);
                 };
                 reader.readAsDataURL(resultBlob);
               })
@@ -72,7 +85,7 @@ const AdidasCustomization = () => {
         className="my-4 rounded border-zinc-300	rounded-3xl	hover:#0d9488 focus:outline-none focus:ring focus:ring-mgreen font-[BSemiBold] border-mgreen-500/75"
         type="secundray"
       >
-        Upload Logo And Customize It{" "}
+        Upload Logo And Customize It
       </Button>
 
       <Modal
@@ -81,51 +94,59 @@ const AdidasCustomization = () => {
         centered
         onCancel={() => setLogoPopupVisible(false)}
         footer={[
-          <Button key="save" type="primary" onClick={handleSaveChanges}>
+          <Button key="save" type="primary" onClick={handleSC}>
             Save
           </Button>
         ]}
         className="flex"
         mask="true"
         width={1000}
+        height={750}
       >
         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
           <Col>
             <div>
-              <div className="relative max-w-[400px]">
-                <Upload
-                  accept="image/*"
-                  customRequest={({ file }) => handleImageUpload(file)}
-                  showUploadList={false}
-                >
-                  <Button icon={<UploadOutlined />} className="my-4">
-                    Upload Logo
-                  </Button>
-                </Upload>
-                <Image
-                  src={adidas1}
-                  alt="Adidas Shoes"
-                  width={400}
-                  height={300}
-                />
+              <Upload
+                accept="image/*"
+                customRequest={({ file }) => handleImageUpload(file)}
+                showUploadList={false}
+              >
+                <Button icon={<UploadOutlined />} className="my-4">
+                  Upload Logo
+                </Button>
+              </Upload>
+              <div>
+                <Button key="save" type="primary" onClick={handleSC}>
+                  Save
+                </Button>
 
-                {logoImage && (
-                  <img
-                    src={logoImage}
-                    alt="Custom Logo"
-                    style={{
-                      position: "absolute",
-                      width: `${width}%`,
-                      height: `${height}%`,
-                      transform: `rotate(${rotation}deg)`,
-                      float: placement,
-                      maxWidth: "100%",
-                      top: `${verticalPosition}px`,
-                      left: `${horizontalPosition}px`,
-                      filter: `hue-rotate(${hueRotation}turn)`
-                    }}
-                  />
-                )}
+                <div
+                  id="modal-container"
+                  // style={{
+                  //   position: "relative",
+                  //   width: "500px",
+                  //   height: "500px"
+                  // }}
+                >
+                  <Adidas width={600} height={500} />
+
+                  {logoImage && (
+                    <Image
+                      src={logoImage}
+                      width={100}
+                      height={100}
+                      style={{
+                        width: `${width}%`,
+                        height: `${height}%`,
+                        position: "absolute",
+                        transform: `rotate(${rotation}deg)`,
+                        top: `${verticalPosition}px`,
+                        left: `${horizontalPosition}px`,
+                        zIndex: 2
+                      }}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </Col>
@@ -164,7 +185,7 @@ const AdidasCustomization = () => {
                 value={verticalPosition}
                 onChange={(value) => setVerticalPosition(value)}
                 min={-150}
-                max={150}
+                max={350}
               />
             </div>
             <div>
@@ -173,7 +194,7 @@ const AdidasCustomization = () => {
                 value={horizontalPosition}
                 onChange={(value) => setHorizontalPosition(value)}
                 min={-150}
-                max={150}
+                max={350}
               />
             </div>
             <div>

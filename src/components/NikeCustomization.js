@@ -4,8 +4,8 @@ import { UploadOutlined, SaveOutlined } from "@ant-design/icons";
 import nike from "../utils/images/Untitled design.png";
 import { SketchPicker } from "react-color";
 import Nikesvg from "../utils/svgs/222.svg";
-import KonvaCanvas from "./KonvaCanvas";
 import Image from "next/image";
+import html2canvas from "html2canvas";
 
 const NikeCustomization = () => {
   const [logoImage, setLogoImage] = useState(null);
@@ -22,6 +22,19 @@ const NikeCustomization = () => {
   const handleImageUpload = (file) => {
     setLogoImage(URL.createObjectURL(file));
   };
+
+  const handleSC = async () => {
+    const whatWeWant = document.getElementById("modal-container");
+    const finalImage = await html2canvas(whatWeWant);
+    const dataUrl = finalImage.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = "screenshot.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
   const handleRemoveBG = () => {
     if (!logoImage) {
       alert("Please upload a logo image first.");
@@ -48,9 +61,8 @@ const NikeCustomization = () => {
               .then((resultBlob) => {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                  // Set the processed image URL to logoImage state
                   setLogoImage(reader.result);
-                  setRemovingBackground(false); // Clear the background removal flag
+                  setRemovingBackground(false);
                 };
                 reader.readAsDataURL(resultBlob);
               })
@@ -85,7 +97,7 @@ const NikeCustomization = () => {
         centered
         onCancel={() => setLogoPopupVisible(false)}
         footer={[
-          <Button key="save" type="primary" onClick={handleSaveChanges}>
+          <Button key="save" type="primary" onClick={handleSC}>
             Save
           </Button>
         ]}
@@ -104,38 +116,38 @@ const NikeCustomization = () => {
                 >
                   <Button icon={<UploadOutlined />}>Upload Logo</Button>
                 </Upload>
+                <div id="modal-container">
+                  <div className="sneaker-container">
+                    <div style={{ margin: 3 }}>
+                      <Nikesvg
+                        // className="nike-swoosh"
+                        width={400}
+                        height={400}
+                        onClick={() => handleColorChange(logoColor)}
+                        style={{
+                          backgroundColor: `${nikeSwooshColor}`
+                        }}
+                      />
+                    </div>
+                  </div>
 
-                <div className="sneaker-container">
-                  <div style={{ margin: 3 }}>
-                    <Nikesvg
-                      // className="nike-swoosh"
-                      width={400}
-                      height={400}
-                      // fill={nikeSwooshColor}
-                      onClick={() => handleColorChange(logoColor)}
+                  {logoImage && (
+                    <img
+                      src={logoImage}
+                      alt="Custom Logo"
                       style={{
-                        backgroundColor: `${nikeSwooshColor}`
+                        position: "absolute",
+                        width: `${width}%`,
+                        height: `${height}%`,
+                        transform: `rotate(${rotation}deg)`,
+                        float: placement,
+                        maxWidth: "100%",
+                        top: `${verticalPosition}px`,
+                        left: `${horizontalPosition}px`
                       }}
                     />
-                  </div>
+                  )}
                 </div>
-
-                {logoImage && (
-                  <img
-                    src={logoImage}
-                    alt="Custom Logo"
-                    style={{
-                      position: "absolute",
-                      width: `${width}%`,
-                      height: `${height}%`,
-                      transform: `rotate(${rotation}deg)`,
-                      float: placement,
-                      maxWidth: "100%",
-                      top: `${verticalPosition}px`,
-                      left: `${horizontalPosition}px`
-                    }}
-                  />
-                )}
               </div>
             </div>
             <SketchPicker

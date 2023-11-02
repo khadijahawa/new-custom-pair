@@ -4,15 +4,12 @@
     format("truetype");
 }
 .section {
-  /* display: flex; */
   width: 100%;
 }
 
 .column {
   width: 50%;
   font-family: "Work Sans", sans-serif;
-  /* flex: 1; */
-
   margin-top: 5%;
   padding: 40px;
   transition: width 0.3s ease-in-out, font-size 0.3s ease-in-out;
@@ -29,13 +26,11 @@
   text-align: center;
   justify-content: center;
   align-items: center;
-  /* position: relative; */
   font-weight: 900;
   letter-spacing: 10px;
   height: 700px;
   text-shadow: rgb(167, 163, 163) 2px 2px 2px;
-  /* font-size: 4rem; */
-  /* color: #214e34; */
+
 }
 
 .header {
@@ -60,7 +55,7 @@
 }
 
 .column.expanded .header {
-  display: block; /* Display the header when column is expanded */
+  display: block; 
 }
 
 .imgage {
@@ -81,8 +76,8 @@
   color: #01562f;
 }
 .antMenuItem {
-  height: 60px; /* Adjust the height as needed */
-  line-height: 60px; /* Center the content vertically */
+  height: 60px; 
+  line-height: 60px; 
 }
 .logo {
   width: 100%;

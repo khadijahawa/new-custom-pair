@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import footerLogo from "../utils/images/WhiteLogo.png";
+import footerLogo1 from "../utils/images/WhiteLogo.png";
+import footerLogo2 from "../utils/images/logoBlack-removebg-preview.png";
+
 import Link from "next/link";
 import Image from "next/image";
 import before from "../utils/images/before-removebg-preview.png";
@@ -11,7 +13,7 @@ import {
   HomeOutlined,
   ShopOutlined,
   ClearOutlined,
-  DisconnectOutlined,
+  DisconnectOutlined
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import styles from "./styles.module.css";
@@ -24,7 +26,7 @@ const AppFooter = () => {
         <Link href="/" passHref className="font-[BRegular]">
           Home
         </Link>
-      ),
+      )
     },
 
     {
@@ -33,7 +35,7 @@ const AppFooter = () => {
         <Link href="/forBusniuss" passHref className="font-[BRegular]">
           For Business
         </Link>
-      ),
+      )
     },
     {
       key: "3",
@@ -41,7 +43,7 @@ const AppFooter = () => {
         <Link href="/cleaning" passHref className=" font-[BRegular]">
           Cleaning
         </Link>
-      ),
+      )
     },
 
     {
@@ -50,7 +52,7 @@ const AppFooter = () => {
         <Link href="/contact" passHref className="font-[BRegular]">
           Contact Us
         </Link>
-      ),
+      )
     },
     {
       key: "5",
@@ -58,16 +60,21 @@ const AppFooter = () => {
         <Link href="/" passHref className="font-[BRegular]">
           About Custom Pair
         </Link>
-      ),
-    },
+      )
+    }
   ];
 
   return (
-    <footer className="text-center bottom-0 w-full bg-gray-400 p-4 h-full ">
-      <div className="">
-        <Link href="/">
-          <Image src={footerLogo} alt="Logo" className="w-60" />
-        </Link>
+    <footer className="text-center bg-[#d0d0d0] p-16 relative ">
+      <div className="absolute w-full bottom-0 ">
+        <div className="flex gap-3">
+          <Link href="/">
+            <Image src={footerLogo1} alt="Logo" className="w-60" />
+          </Link>
+          <Link href="/">
+            <Image src={footerLogo2} alt="Logo" className="w-10 " />
+          </Link>
+        </div>
         <Menu
           items={items}
           mode="horizontal"
@@ -120,7 +127,6 @@ const AppFooter = () => {
           </div>
         </div> */}
       </div>
-      <div></div>
     </footer>
   );
 };

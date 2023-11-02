@@ -1,8 +1,13 @@
+/* eslint-disable react/no-unknown-property */
+
 import React, { useState } from "react";
 import { Upload, Button, Slider, Radio, Modal, Col, Row, Switch } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import Treec from "../utils/svgs/what johannes made/shoe.svg";
+import Treec from "./Svg";
+import html2canvas from "html2canvas";
+
 import Image from "next/image";
+// import Stripe from "stripe";
 
 const CustomCustomization = () => {
   const [logoImage, setLogoImage] = useState(null);
@@ -13,9 +18,89 @@ const CustomCustomization = () => {
   const [placement, setPlacement] = useState("left");
   const [verticalPosition, setVerticalPosition] = useState(0);
   const [horizontalPosition, setHorizontalPosition] = useState(0);
-  const [hueRotation, setHueRotation] = useState(0);
-  const [removingBackground, setRemovingBackground] = useState(false);
 
+  const defaultColors = {
+    front: "",
+    inner: "",
+    back: "",
+    stripe: "",
+    backTop: "",
+    tongue: ""
+  };
+
+  const [frontColor, setFrontColor] = useState(defaultColors.front);
+  const [innerColor, setInnerColor] = useState(defaultColors.inner);
+  const [backColor, setBackColor] = useState(defaultColors.back);
+  const [stripeColor, setStripeColor] = useState(defaultColors.stripe);
+  const [backTopColor, setBackTopColor] = useState(defaultColors.backTop);
+  const [tongueColor, setTongueColor] = useState(defaultColors.tongue);
+
+  const [removingBackground, setRemovingBackground] = useState(false);
+  const [selectedPart, setSelectedPart] = useState("heel");
+
+  const handleSC = async () => {
+    const whatWeWant = document.getElementById("modal-container");
+    const finalImage = await html2canvas(whatWeWant);
+    const dataUrl = finalImage.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = dataUrl;
+    a.download = "screenshot.png";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  const partNames = ["Front", "Inner", "Back", "Stripe", "Back Top", "Tongue"];
+
+  const resetPartColor = (partName) => {
+    switch (partName) {
+      case "Front":
+        setFrontColor(defaultColors.front);
+        break;
+      case "Inner":
+        setInnerColor(defaultColors.inner);
+        break;
+      case "Back":
+        setBackColor(defaultColors.back);
+        break;
+      case "Stripe":
+        setStripeColor(defaultColors.stripe);
+        break;
+      case "Back Top":
+        setBackTopColor(defaultColors.backTop);
+        break;
+      case "Tongue":
+        setTongueColor(defaultColors.tongue);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleColorChange = (color) => {
+    switch (selectedPart) {
+      case "Front":
+        setFrontColor(color);
+        break;
+      case "Inner":
+        setInnerColor(color);
+        break;
+      case "Back":
+        setBackColor(color);
+        break;
+      case "Stripe":
+        setStripeColor(color);
+        break;
+      case "Back Top":
+        setBackTopColor(color);
+        break;
+      case "Tongue":
+        setTongueColor(color);
+        break;
+      default:
+        break;
+    }
+  };
   const handleImageUpload = (file) => {
     setLogoImage(URL.createObjectURL(file));
   };
@@ -72,7 +157,7 @@ const CustomCustomization = () => {
         className="my-4 rounded border-zinc-300	rounded-3xl	hover:#0d9488 focus:outline-none focus:ring focus:ring-mgreen font-[BSemiBold] border-mgreen-500/75"
         type="secundray"
       >
-        Upload Logo And Customize It{" "}
+        Upload Logo And Customize It
       </Button>
 
       <Modal
@@ -81,55 +166,95 @@ const CustomCustomization = () => {
         centered
         onCancel={() => setLogoPopupVisible(false)}
         footer={[
-          <Button key="save" type="primary" onClick={handleSaveChanges}>
+          <Button key="save" type="primary" onClick={handleSC}>
             Save
           </Button>
         ]}
         className="flex"
         mask="true"
-        width={1000}
+        width={1300}
       >
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        <Row gutter={{ xs: 12, sm: 20, md: 36, lg: 40 }}>
           <Col>
             <div>
-              <div className="relative max-w-[400px]">
+              <div className="relative max-w-[500px] mx-2">
                 <Upload
                   accept="image/*"
                   customRequest={({ file }) => handleImageUpload(file)}
                   showUploadList={false}
                 >
                   <Button icon={<UploadOutlined />} className="my-4">
-                    Upload Logo
+                    Upload Custom Logo
                   </Button>
                 </Upload>
-                <Treec
-                  width={500}
-                  height={500}
-                  style={{ backgroundColor: "red" }}
-                />
 
-                {logoImage && (
-                  <img
-                    src={logoImage}
-                    alt="Custom Logo"
-                    style={{
-                      position: "absolute",
-                      width: `${width}%`,
-                      height: `${height}%`,
-                      transform: `rotate(${rotation}deg)`,
-                      float: placement,
-                      maxWidth: "100%",
-                      top: `${verticalPosition}px`,
-                      left: `${horizontalPosition}px`,
-                      filter: `hue-rotate(${hueRotation}turn)`
-                    }}
+                <div className="mx-1" id="modal-container">
+                  <Treec
+                    frontColor={frontColor}
+                    innerColor={innerColor}
+                    backColor={backColor}
+                    stripeColor={stripeColor}
+                    backTopColor={backTopColor}
+                    tongueColor={tongueColor}
                   />
-                )}
+                  {logoImage && (
+                    <img
+                      src={logoImage}
+                      alt="Custom Logo"
+                      style={{
+                        position: "absolute",
+                        width: `${width}%`,
+                        height: `${height}%`,
+                        transform: `rotate(${rotation}deg)`,
+                        float: placement,
+                        maxWidth: "100%",
+                        top: `${verticalPosition}px`,
+                        left: `${horizontalPosition}px`
+                      }}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </Col>
           <Col>
             <div>
+              <label>Select A Part: &nbsp; &nbsp;</label>
+              <Radio.Group
+                value={selectedPart}
+                onChange={(e) => setSelectedPart(e.target.value)}
+              >
+                {partNames.map((partName) => (
+                  <Radio.Button key={partName} value={partName}>
+                    {partName.charAt(0).toUpperCase() + partName.slice(1)}
+                  </Radio.Button>
+                ))}
+              </Radio.Group>
+            </div>
+            <div className="my-2">
+              <label>Pick A Color: &nbsp; &nbsp;</label>
+              <input
+                type="color"
+                value={
+                  selectedPart === "Front"
+                    ? frontColor
+                    : selectedPart === "Inner"
+                    ? innerColor
+                    : selectedPart === "Back"
+                    ? backColor
+                    : selectedPart === "Stripe"
+                    ? stripeColor
+                    : selectedPart === "Back Top"
+                    ? backTopColor
+                    : selectedPart === "Tongue"
+                    ? tongueColor
+                    : ""
+                }
+                onChange={(e) => handleColorChange(e.target.value)}
+              />
+            </div>
+            <label>Customize Your Logo:</label>
+            <div className="my-2">
               <label>Width:</label>
               <Slider
                 value={width}
@@ -163,7 +288,7 @@ const CustomCustomization = () => {
                 value={verticalPosition}
                 onChange={(value) => setVerticalPosition(value)}
                 min={-150}
-                max={150}
+                max={450}
               />
             </div>
             <div>
@@ -172,27 +297,43 @@ const CustomCustomization = () => {
                 value={horizontalPosition}
                 onChange={(value) => setHorizontalPosition(value)}
                 min={-150}
-                max={150}
+                max={450}
               />
             </div>
             <div>
               <label>
-                Placement: <br />
+                Placement On The Shoes
                 <br />
               </label>
               <Radio.Group
                 value={placement}
                 onChange={(e) => setPlacement(e.target.value)}
+                className="my-2"
               >
-                <Radio.Button value="left">The Inner Side</Radio.Button>
+                <Radio.Button value="left">The Inner Side Of The </Radio.Button>
                 <Radio.Button value="right">The Outter Side</Radio.Button>
               </Radio.Group>
             </div>
-            <div className="mt-2">
+            <div className="my-2">
               <label>
                 Remove Background: <br />
               </label>
               <Switch onChange={handleRemoveBG} autoFocus />
+            </div>
+            <div className="my-2">
+              <label>
+                Reset Color: <br />
+              </label>
+              {partNames.map((partName) => (
+                <Button
+                  key={partName}
+                  type="default"
+                  onClick={() => resetPartColor(partName)}
+                  className="mx-1 my-3"
+                >
+                  Reset {partName.charAt(0).toUpperCase() + partName.slice(1)}
+                </Button>
+              ))}
             </div>
           </Col>
         </Row>

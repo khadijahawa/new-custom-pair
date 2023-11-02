@@ -7,15 +7,15 @@ import after from "../utils/images/after-removebg-preview.png";
 import before2 from "../utils/images/before2-removebg-preview.png";
 import { Card, Tabs, Col, Row, Divider, Typography } from "antd";
 import ShoeSection from "../components/ShoeExpand";
-import image1 from "../utils/images/4.png";
+import image1 from "../utils/images/1-removebg-preview.png";
 import image2 from "../utils/images/5.png";
 import image3 from "../utils/images/Treec_-_01-removebg-preview.png";
 import team1 from "../utils/images/team1.jpg";
-import team2 from "../utils/images/team2.JPG";
+import team2 from "../utils/images/team3.jpg";
 
-import svg1 from "../utils/icons/fit.svg";
-import svg2 from "../utils/icons/feel.svg";
-import svg3 from "../utils/icons/renew.svg";
+import Svg1 from "../utils/icons/fit.svg";
+import Svg2 from "../utils/icons/feel.svg";
+import Svg3 from "../utils/icons/renew.svg";
 import ForBusinessProduct from "../components/ForBusinessProduct";
 import { client } from "@/sanity/lib/client";
 
@@ -137,12 +137,12 @@ const HomePage = ({ products }) => {
         <ShoeSection
           imageSrc={image1}
           headerText="Nike"
-          backgroundColor="#ececec"
+          backgroundColor="#e1e1e1"
         />
         <ShoeSection
           imageSrc={image2}
           headerText="Adidas"
-          backgroundColor="#e1e1e1"
+          backgroundColor="#ececec"
         />
         <ShoeSection
           imageSrc={image3}
@@ -153,7 +153,8 @@ const HomePage = ({ products }) => {
       <Row className="flex justify-around my-16 py-12 text-2xl">
         <Col className="">
           <div className="my-16">
-            <Image src={svg1} alt="team1" />
+            {/* <Image src={svg1} alt="team1" /> */}
+            <Svg1 />
             <p className="mt-6 font-[O]">Unleash Creativity</p>
             <span className="font-[OLight]">
               Design Your Signature Sneakers
@@ -161,7 +162,8 @@ const HomePage = ({ products }) => {
           </div>
           <Divider />
           <div className="my-16">
-            <Image src={svg2} alt="team1" />
+            {/* <Image src={svg2} alt="team1" /> */}
+            <Svg2 />
             <p className="mt-6 font-[O]">Revive Reimagine Renew</p>
             <span className="font-[OLight]">
               Breath New Life into Your Favorite Footwear
@@ -169,7 +171,8 @@ const HomePage = ({ products }) => {
           </div>
           <Divider />
           <div className="my-16">
-            <Image src={svg3} alt="team1" />
+            {/* <Image src={svg3} alt="team1" /> */}
+            <Svg3 />
             <p className="mt-6 font-[O]">Uniquely Yours</p>
             <span className="font-[OLight]">
               Customized Sneakers That elevate Your Branding Game
@@ -185,57 +188,44 @@ const HomePage = ({ products }) => {
         <Col>
           <Image
             src={team2}
-            alt="team1"
+            alt="team2"
             className="rounded-xl "
-            width={750}
-            height={750}
+            width={700}
+            height={800}
           />
         </Col>
         <Col className="">
           <div className="my-16">
-            <Image src={svg1} alt="team1" />
-            <p className="mt-6 font-[O]">Unleash Creativity</p>
+            <Svg1 />
+            <p className="mt-6 font-[O]">Schedule & Collect</p>
             <span className="font-[OLight]">
-              Design Your Signature Sneakers
+              Decide when the shoes can be picked up from the office
             </span>
           </div>
           <Divider />
           <div className="my-16">
-            <Image src={svg2} alt="team1" />
-            <p className="mt-6 font-[O]">Revive Reimagine Renew</p>
+            <Svg2 />
+            <p className="mt-6 font-[O]">Fresh in 5 Days</p>
             <span className="font-[OLight]">
-              Breath New Life into Your Favorite Footwear
+              Our experts clean within 5 working days
             </span>
           </div>
           <Divider />
           <div className="my-16">
-            <Image src={svg3} alt="team1" />
-            <p className="mt-6 font-[O]">Uniquely Yours</p>
+            <Svg3 />
+            <p className="mt-6 font-[O]">Sneaker Return</p>
             <span className="font-[OLight]">
-              Customized Sneakers That elevate Your Branding Game
+              Shoes returned to the office, cleaned and sanitised
             </span>
           </div>
           <Divider />
         </Col>
       </Row>
-      <div className="my-10 flex justify-center">
-        <iframe
-          className="rounded-2xl"
-          width="88%"
-          height="415"
-          src="https://www.youtube-nocookie.com/embed/XBIZbf8FTLg"
-          title="Custom Pair"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        />
-      </div>
+
       {/* <div className="products-heading"> */}
       <h1 className="text-5xl font-[HUltraLight] text-center my-32 pt-8 ">
         Highest Demand
       </h1>
-      {/* <p>speaker There are many variations passages</p> */}
-      {/* </div> */}
 
       <div className="products-container my-32">
         {products?.map((product) => (

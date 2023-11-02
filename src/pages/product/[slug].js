@@ -15,7 +15,6 @@ import { BlockPicker, CirclePicker } from "react-color";
 import AdidasCustomization from "../../components/AdidasCustomization";
 import NikeCustomization from "../../components/NikeCustomization";
 import CustomCustomization from "../../components/CustomCustomization";
-// import Preview from "../../components/SneakerCustomization";
 
 import Image from "next/image";
 
