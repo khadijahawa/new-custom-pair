@@ -1,10 +1,11 @@
 /* eslint-disable react/no-unknown-property */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Upload, Button, Slider, Radio, Modal, Col, Row, Switch } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import Treec from "./Svg";
 import html2canvas from "html2canvas";
+import { SketchPicker } from "react-color";
 
 import Image from "next/image";
 // import Stripe from "stripe";
@@ -18,6 +19,7 @@ const CustomCustomization = () => {
   const [placement, setPlacement] = useState("left");
   const [verticalPosition, setVerticalPosition] = useState(0);
   const [horizontalPosition, setHorizontalPosition] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const defaultColors = {
     front: "",
@@ -37,6 +39,20 @@ const CustomCustomization = () => {
 
   const [removingBackground, setRemovingBackground] = useState(false);
   const [selectedPart, setSelectedPart] = useState("heel");
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleSC = async () => {
     const whatWeWant = document.getElementById("modal-container");
@@ -135,9 +151,8 @@ const CustomCustomization = () => {
               .then((resultBlob) => {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                  // Set the processed image URL to logoImage state
                   setLogoImage(reader.result);
-                  setRemovingBackground(false); // Clear the background removal flag
+                  setRemovingBackground(false);
                 };
                 reader.readAsDataURL(resultBlob);
               })
@@ -162,7 +177,7 @@ const CustomCustomization = () => {
 
       <Modal
         title="Customize Logo"
-        visible={logoPopupVisible}
+        open={logoPopupVisible}
         centered
         onCancel={() => setLogoPopupVisible(false)}
         footer={[
@@ -174,46 +189,49 @@ const CustomCustomization = () => {
         mask="true"
         width={1300}
       >
-        <Row gutter={{ xs: 12, sm: 20, md: 36, lg: 40 }}>
+        <Row gutter={{ xs: 8, sm: 20, md: 36, lg: 40 }}>
           <Col>
-            <div>
-              <div className="relative max-w-[500px] mx-2">
-                <Upload
-                  accept="image/*"
-                  customRequest={({ file }) => handleImageUpload(file)}
-                  showUploadList={false}
-                >
-                  <Button icon={<UploadOutlined />} className="my-4">
-                    Upload Custom Logo
-                  </Button>
-                </Upload>
-
-                <div className="mx-1" id="modal-container">
-                  <Treec
-                    frontColor={frontColor}
-                    innerColor={innerColor}
-                    backColor={backColor}
-                    stripeColor={stripeColor}
-                    backTopColor={backTopColor}
-                    tongueColor={tongueColor}
+            <div className="relative max-w-[500px] mx-2">
+              <Upload
+                accept="image/*"
+                customRequest={({ file }) => handleImageUpload(file)}
+                showUploadList={false}
+              >
+                <Button icon={<UploadOutlined />} className="my-4">
+                  Upload Logo And Customize It
+                </Button>
+              </Upload>
+              <div className="my-2">
+                <label>
+                  Remove Background: <br />
+                </label>
+                <Switch onChange={handleRemoveBG} autoFocus className="my-2" />
+              </div>
+              <div className="mx-1" id="modal-container">
+                <Treec
+                  frontColor={frontColor}
+                  innerColor={innerColor}
+                  backColor={backColor}
+                  stripeColor={stripeColor}
+                  backTopColor={backTopColor}
+                  tongueColor={tongueColor}
+                />
+                {logoImage && (
+                  <img
+                    src={logoImage}
+                    alt="Custom Logo"
+                    style={{
+                      position: "absolute",
+                      width: `${width}%`,
+                      height: `${height}%`,
+                      transform: `rotate(${rotation}deg)`,
+                      float: placement,
+                      maxWidth: "100%",
+                      top: `${verticalPosition}px`,
+                      left: `${horizontalPosition}px`
+                    }}
                   />
-                  {logoImage && (
-                    <img
-                      src={logoImage}
-                      alt="Custom Logo"
-                      style={{
-                        position: "absolute",
-                        width: `${width}%`,
-                        height: `${height}%`,
-                        transform: `rotate(${rotation}deg)`,
-                        float: placement,
-                        maxWidth: "100%",
-                        top: `${verticalPosition}px`,
-                        left: `${horizontalPosition}px`
-                      }}
-                    />
-                  )}
-                </div>
+                )}
               </div>
             </div>
           </Col>
@@ -231,35 +249,55 @@ const CustomCustomization = () => {
                 ))}
               </Radio.Group>
             </div>
-            <div className="my-2">
-              <label>Pick A Color: &nbsp; &nbsp;</label>
-              <input
-                type="color"
-                value={
-                  selectedPart === "Front"
-                    ? frontColor
-                    : selectedPart === "Inner"
-                    ? innerColor
-                    : selectedPart === "Back"
-                    ? backColor
-                    : selectedPart === "Stripe"
-                    ? stripeColor
-                    : selectedPart === "Back Top"
-                    ? backTopColor
-                    : selectedPart === "Tongue"
-                    ? tongueColor
-                    : ""
-                }
-                onChange={(e) => handleColorChange(e.target.value)}
-              />
-            </div>
+            <Row gutter={{ xs: 12, sm: 28, md: 38, lg: 48 }} className="my-4">
+              <Col className="mx-2">
+                <label>
+                  Pick A Color:
+                  <br />
+                </label>
+
+                <SketchPicker
+                  color={
+                    selectedPart === "Front"
+                      ? frontColor
+                      : selectedPart === "Inner"
+                      ? innerColor
+                      : selectedPart === "Back"
+                      ? backColor
+                      : selectedPart === "Stripe"
+                      ? stripeColor
+                      : selectedPart === "Back Top"
+                      ? backTopColor
+                      : selectedPart === "Tongue"
+                      ? tongueColor
+                      : ""
+                  }
+                  onChangeComplete={(color) => handleColorChange(color.hex)}
+                />
+              </Col>
+              <Col className="mx-2">
+                <label>
+                  Reset Color: <br />
+                </label>
+                {partNames.map((partName) => (
+                  <Button
+                    key={partName}
+                    type="default"
+                    onClick={() => resetPartColor(partName)}
+                    className="mx-1 my-3 flex"
+                  >
+                    Reset {partName.charAt(0).toUpperCase() + partName.slice(1)}
+                  </Button>
+                ))}
+              </Col>
+            </Row>
             <label>Customize Your Logo:</label>
             <div className="my-2">
               <label>Width:</label>
               <Slider
                 value={width}
                 onChange={(value) => setWidth(value)}
-                min={10}
+                min={5}
                 max={200}
               />
             </div>
@@ -268,7 +306,7 @@ const CustomCustomization = () => {
               <Slider
                 value={height}
                 onChange={(value) => setHeight(value)}
-                min={10}
+                min={5}
                 max={200}
               />
             </div>
@@ -287,8 +325,8 @@ const CustomCustomization = () => {
               <Slider
                 value={verticalPosition}
                 onChange={(value) => setVerticalPosition(value)}
-                min={-150}
-                max={450}
+                min={isMobile ? -50 : -150}
+                max={isMobile ? 300 : 450}
               />
             </div>
             <div>
@@ -296,8 +334,8 @@ const CustomCustomization = () => {
               <Slider
                 value={horizontalPosition}
                 onChange={(value) => setHorizontalPosition(value)}
-                min={-150}
-                max={450}
+                min={isMobile ? -50 : -150}
+                max={isMobile ? 300 : 450}
               />
             </div>
             <div>
@@ -313,27 +351,6 @@ const CustomCustomization = () => {
                 <Radio.Button value="left">The Inner Side Of The </Radio.Button>
                 <Radio.Button value="right">The Outter Side</Radio.Button>
               </Radio.Group>
-            </div>
-            <div className="my-2">
-              <label>
-                Remove Background: <br />
-              </label>
-              <Switch onChange={handleRemoveBG} autoFocus />
-            </div>
-            <div className="my-2">
-              <label>
-                Reset Color: <br />
-              </label>
-              {partNames.map((partName) => (
-                <Button
-                  key={partName}
-                  type="default"
-                  onClick={() => resetPartColor(partName)}
-                  className="mx-1 my-3"
-                >
-                  Reset {partName.charAt(0).toUpperCase() + partName.slice(1)}
-                </Button>
-              ))}
             </div>
           </Col>
         </Row>

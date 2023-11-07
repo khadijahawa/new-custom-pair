@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Upload, Button, Slider, Radio, Modal, Col, Row, Switch } from "antd";
 import { UploadOutlined, SaveOutlined } from "@ant-design/icons";
-import nike from "../utils/images/Untitled design.png";
+// import nike from "../utils/images/Untitled design.png";
 import { SketchPicker } from "react-color";
 import Nikesvg from "../utils/svgs/222.svg";
-import Image from "next/image";
+// import Image from "next/image";
 import html2canvas from "html2canvas";
 
 const NikeCustomization = () => {
@@ -16,12 +16,27 @@ const NikeCustomization = () => {
   const [placement, setPlacement] = useState("left");
   const [verticalPosition, setVerticalPosition] = useState(0);
   const [horizontalPosition, setHorizontalPosition] = useState(0);
-  const [nikeSwooshColor, setNikeSwooshColor] = useState("#000000");
+  const [nikeSwooshColor, setNikeSwooshColor] = useState("#E2E2E2");
   const [removingBackground, setRemovingBackground] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const handleImageUpload = (file) => {
     setLogoImage(URL.createObjectURL(file));
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleSC = async () => {
     const whatWeWant = document.getElementById("modal-container");
@@ -101,67 +116,77 @@ const NikeCustomization = () => {
             Save
           </Button>
         ]}
-        className="flex"
+        className="flex justify-items-center"
         mask="true"
-        width={1000}
+        width={1100}
       >
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        <Row gutter={{ xs: 8, sm: 24, md: 42, lg: 48 }}>
           <Col>
-            <div>
-              <div className="relative max-w-[400px]">
-                <Upload
-                  accept="image/*"
-                  customRequest={({ file }) => handleImageUpload(file)}
-                  showUploadList={false}
-                >
-                  <Button icon={<UploadOutlined />}>Upload Logo</Button>
-                </Upload>
-                <div id="modal-container">
-                  <div className="sneaker-container">
-                    <div style={{ margin: 3 }}>
-                      <Nikesvg
-                        // className="nike-swoosh"
-                        width={400}
-                        height={400}
-                        onClick={() => handleColorChange(logoColor)}
-                        style={{
-                          backgroundColor: `${nikeSwooshColor}`
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  {logoImage && (
-                    <img
-                      src={logoImage}
-                      alt="Custom Logo"
-                      style={{
-                        position: "absolute",
-                        width: `${width}%`,
-                        height: `${height}%`,
-                        transform: `rotate(${rotation}deg)`,
-                        float: placement,
-                        maxWidth: "100%",
-                        top: `${verticalPosition}px`,
-                        left: `${horizontalPosition}px`
-                      }}
-                    />
-                  )}
+            <div className="relative max-w-[500px] ">
+              <Upload
+                accept="image/*"
+                customRequest={({ file }) => handleImageUpload(file)}
+                showUploadList={false}
+              >
+                <Button icon={<UploadOutlined />}>Upload Logo</Button>
+              </Upload>
+              <div className="my-4">
+                <label>
+                  Remove Background: <br />
+                </label>
+                <Switch onChange={handleRemoveBG} autoFocus />
+              </div>
+              <div id="modal-container">
+                <div>
+                  <Nikesvg
+                    width={500}
+                    height={500}
+                    style={{
+                      backgroundColor: `${nikeSwooshColor}`
+                    }}
+                    className="treecSvg"
+                  />
                 </div>
+
+                {logoImage && (
+                  <img
+                    src={logoImage}
+                    alt="Custom Logo"
+                    style={{
+                      position: "absolute",
+                      width: `${width}%`,
+                      height: `${height}%`,
+                      transform: `rotate(${rotation}deg)`,
+                      float: placement,
+                      maxWidth: "100%",
+                      top: `${verticalPosition}px`,
+                      left: `${horizontalPosition}px`
+                    }}
+                  />
+                )}
               </div>
             </div>
-            <SketchPicker
-              color={nikeSwooshColor}
-              onChangeComplete={handleColorChange}
-            />
           </Col>
           <Col>
+            <div>
+              <label>
+                Change The Woosh Color:
+                <br />
+              </label>
+              <SketchPicker
+                color={nikeSwooshColor}
+                onChangeComplete={handleColorChange}
+                className="mt-4"
+              />
+            </div>
+            <div className="my-3">Customize Your Logo:</div>
+
             <div>
               <label>Width:</label>
               <Slider
                 value={width}
                 onChange={(value) => setWidth(value)}
-                min={10}
+                min={5}
                 max={200}
               />
             </div>
@@ -170,7 +195,7 @@ const NikeCustomization = () => {
               <Slider
                 value={height}
                 onChange={(value) => setHeight(value)}
-                min={10}
+                min={5}
                 max={200}
               />
             </div>
@@ -189,8 +214,8 @@ const NikeCustomization = () => {
               <Slider
                 value={verticalPosition}
                 onChange={(value) => setVerticalPosition(value)}
-                min={-150}
-                max={350}
+                min={isMobile ? -50 : -150}
+                max={isMobile ? 300 : 550}
               />
             </div>
             <div>
@@ -198,25 +223,23 @@ const NikeCustomization = () => {
               <Slider
                 value={horizontalPosition}
                 onChange={(value) => setHorizontalPosition(value)}
-                min={-150}
-                max={350}
+                min={isMobile ? -50 : -150}
+                max={isMobile ? 250 : 550}
               />
             </div>
             <div>
-              <label>Placement: </label>
+              <label>
+                {" "}
+                Placement On The Shoes <br />
+              </label>
               <Radio.Group
                 value={placement}
                 onChange={(e) => setPlacement(e.target.value)}
+                className="my-2"
               >
                 <Radio.Button value="left"> The Inside Face</Radio.Button>
                 <Radio.Button value="right">The Outside Face</Radio.Button>
               </Radio.Group>
-            </div>
-            <div className="mt-2">
-              <label>
-                Remove Background: <br />
-              </label>
-              <Switch onChange={handleRemoveBG} autoFocus />
             </div>
           </Col>
         </Row>

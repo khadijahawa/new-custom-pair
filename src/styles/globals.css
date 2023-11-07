@@ -90,13 +90,6 @@ span.text-red {
   transform: scale(1.1, 1.1);
 }
 
-.sneaker-container {
-  position: relative;
-  width: 400px;
-  height: 400px;
-  /* aspect-ratio: 1/1; */
-}
-
 .full-sneaker {
   position: absolute;
   top: 0;
@@ -680,6 +673,11 @@ span.text-red {
   margin-top: 10px;
 }
 
+.treecSvg {
+  width: 500px;
+  height: 500px;
+}
+
 @media screen and (max-width: 800px) {
   .hero-banner-container {
     height: 560px;
@@ -819,5 +817,9 @@ span.text-red {
   .btn-container {
     width: 300px;
     margin: auto;
+  }
+  .treecSvg {
+    width: 250px;
+    height: 250px;
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Upload, Button, Slider, Radio, Modal, Col, Row, Switch } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import Adidas from "../utils/svgs/stan-heel.svg";
@@ -17,6 +17,21 @@ const AdidasCustomization = () => {
   const [hueRotation, setHueRotation] = useState(0);
   const [removingBackground, setRemovingBackground] = useState(false);
   const [screenshotURL, setScreenshotURL] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleSC = async () => {
     const whatWeWant = document.getElementById("modal-container");
@@ -89,7 +104,7 @@ const AdidasCustomization = () => {
       </Button>
 
       <Modal
-        title="Customize Logo"
+        title="Customize Your Adidas Shoes"
         visible={logoPopupVisible}
         centered
         onCancel={() => setLogoPopupVisible(false)}
@@ -101,7 +116,7 @@ const AdidasCustomization = () => {
         className="flex"
         mask="true"
         width={1000}
-        height={750}
+        // height={750}
       >
         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
           <Col>
@@ -112,7 +127,7 @@ const AdidasCustomization = () => {
                 showUploadList={false}
               >
                 <Button icon={<UploadOutlined />} className="my-4">
-                  Upload Logo
+                  Upload Logo And Customize It
                 </Button>
               </Upload>
               <div>
@@ -120,16 +135,8 @@ const AdidasCustomization = () => {
                   Save
                 </Button>
 
-                <div
-                  id="modal-container"
-                  // style={{
-                  //   position: "relative",
-                  //   width: "500px",
-                  //   height: "500px"
-                  // }}
-                >
-                  <Adidas width={600} height={500} />
-
+                <div id="modal-container">
+                  <Adidas className="treecSvg" />
                   {logoImage && (
                     <Image
                       src={logoImage}
@@ -184,8 +191,8 @@ const AdidasCustomization = () => {
               <Slider
                 value={verticalPosition}
                 onChange={(value) => setVerticalPosition(value)}
-                min={-150}
-                max={350}
+                min={isMobile ? -50 : -150}
+                max={isMobile ? 300 : 350}
               />
             </div>
             <div>
@@ -193,8 +200,8 @@ const AdidasCustomization = () => {
               <Slider
                 value={horizontalPosition}
                 onChange={(value) => setHorizontalPosition(value)}
-                min={-150}
-                max={350}
+                min={isMobile ? -50 : -150}
+                max={isMobile ? 300 : 350}
               />
             </div>
             <div>

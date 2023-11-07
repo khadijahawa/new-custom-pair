@@ -88,9 +88,14 @@ const HomePage = ({ products }) => {
                 key="1"
                 className="justify-center items-center"
               >
-                <span className=" font-[OBoldItalic]">
+                {/* <span className=" font-[OBoldItalic]">
                   <br /> and add your logo for a unique touch
-                </span>
+                </span> */}
+                <div className="buttons">
+                  <button type="submit" className="add-to-cart">
+                    Custimize Your Shoes NOW!
+                  </button>
+                </div>
               </TabPane>
               <TabPane
                 tab={<CenteredTabTitle title="Cleaning" />}
@@ -98,8 +103,13 @@ const HomePage = ({ products }) => {
                 className=""
               >
                 <span className=" font-[OBoldItalic]">
-                  <br /> Our expert team ensures meticulous cleaning, to their
-                  pristine condition.
+                  {/* <br /> Our expert team ensures meticulous cleaning, to their
+                  pristine condition. */}
+                  <div className="buttons">
+                    <button type="submit" className="add-to-cart">
+                      BOOK NOW!
+                    </button>
+                  </div>
                 </span>
               </TabPane>
             </Tabs>
@@ -205,7 +215,7 @@ const HomePage = ({ products }) => {
           <Divider />
           <div className="my-16">
             <Svg2 />
-            <p className="mt-6 font-[O]">Fresh in 5 Days</p>
+            <p className="mt-6 font-[O]">Refresh in 5 Days</p>
             <span className="font-[OLight]">
               Our experts clean within 5 working days
             </span>
