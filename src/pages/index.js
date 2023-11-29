@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import Image from "next/image";
 import home1 from "../utils/images/home1.png";
 import home2 from "../utils/images/home2.png";
-import before from "../utils/images/before-removebg-preview.png";
-import after from "../utils/images/after-removebg-preview.png";
-import before2 from "../utils/images/before2-removebg-preview.png";
 import { Card, Tabs, Col, Row, Divider, Typography } from "antd";
 import ShoeSection from "../components/ShoeExpand";
-import image1 from "../utils/images/1-removebg-preview.png";
+import image1 from "../utils/images/FBNike-removebg-preview.png";
 import image2 from "../utils/images/5.png";
 import image3 from "../utils/images/Treec_-_01-removebg-preview.png";
 import team1 from "../utils/images/team1.jpg";
@@ -18,6 +15,7 @@ import Svg2 from "../utils/icons/feel.svg";
 import Svg3 from "../utils/icons/renew.svg";
 import ForBusinessProduct from "../components/ForBusinessProduct";
 import { client } from "@/sanity/lib/client";
+import Link from "next/link";
 
 const { Text } = Typography;
 
@@ -27,10 +25,10 @@ const CenteredTabTitle = ({ title }) => (
   </div>
 );
 
-const contentStyle = {
-  maxWidth: "100%",
-  width: "100%"
-};
+// const contentStyle = {
+//   maxWidth: "100%",
+//   width: "100%"
+// };
 
 const { Meta } = Card;
 const { TabPane } = Tabs;
@@ -48,20 +46,22 @@ const HomePage = ({ products }) => {
         <Image
           src={home2}
           alt="home"
-          className="w-full h-full max-h-600 max-w-600"
+          // className="w-full h-full max-h-600 max-w-600"
+          width={320}
+          height={240}
         />
       );
     }
     if (selectedTab === "2") {
-      return <Image src={home1} alt="home" />;
+      return <Image src={home1} alt="home" width={320} height={240} />;
     }
     return null;
   };
 
   return (
-    <div className="">
+    <div className="mt-10 ">
       <div
-        className="lg:grid lg:grid-cols-2 my-8"
+        className="lg:grid lg:grid-cols-2 my-8 tapsPart"
         style={{
           minHeight: 350,
           maxHeight: 350
@@ -82,45 +82,46 @@ const HomePage = ({ products }) => {
               className="text-2xl lg:text-xl mt-8 pt-8"
               activeKey={selectedTab}
               onChange={handleTabChange}
+              tabPosition="top"
             >
               <TabPane
                 tab={<CenteredTabTitle title="For Business" />}
                 key="1"
                 className="justify-center items-center"
               >
-                {/* <span className=" font-[OBoldItalic]">
-                  <br /> and add your logo for a unique touch
-                </span> */}
-                <div className="buttons">
-                  <button type="submit" className="add-to-cart">
-                    Custimize Your Shoes NOW!
-                  </button>
-                </div>
+                <Link
+                  type="submit"
+                  className="buttonBanner font-[OBold]  "
+                  href="./forBusiness"
+                >
+                  Custimize Your Shoes NOW!
+                </Link>
               </TabPane>
               <TabPane
                 tab={<CenteredTabTitle title="Cleaning" />}
                 key="2"
                 className=""
               >
-                <span className=" font-[OBoldItalic]">
-                  {/* <br /> Our expert team ensures meticulous cleaning, to their
-                  pristine condition. */}
-                  <div className="buttons">
-                    <button type="submit" className="add-to-cart">
-                      BOOK NOW!
-                    </button>
-                  </div>
-                </span>
+                <div className="">
+                  <Link
+                    type="submit"
+                    className="buttonBanner font-[OBold] "
+                    href="./cleaning"
+                  >
+                    BOOK NOW!
+                  </Link>
+                </div>
               </TabPane>
             </Tabs>
           </Card>
         </div>
       </div>
-      <h1 className="text-5xl font-[HUltraLight] text-center mt-32 pt-8 ">
-        What's Included
-      </h1>
-      <div className=" mt-16 ">
-        <Row className="flex justify-center md:justify-around drop-shadow-2xl text-center font-bold gap-4 md:gap-0">
+
+      <div className="whatsIncluded">
+        <h1 className="text-5xl font-[HUltraLight] text-center my-12 pt-8 md:mt-32 lg:mt-32 lg:pt-12">
+          What's Included
+        </h1>
+        <Row className="flex justify-center md:justify-around drop-shadow-2xl text-center font-bold gap-4 md:gap-0 pt-16">
           <Col xs={18} sm={12} md={6} lg={4}>
             <Card bordered={false} className="max-w-xs mx-auto">
               Sustainable Packaging
@@ -238,9 +239,7 @@ const HomePage = ({ products }) => {
       </h1>
 
       <div className="products-container my-32">
-        {products?.map((product) => (
-          <ForBusinessProduct key={product._id} product={product} />
-        ))}
+        <ForBusinessProduct key={products[2]._id} product={products[2]} />
       </div>
     </div>
   );

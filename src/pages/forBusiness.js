@@ -4,12 +4,12 @@ import Image from "next/image";
 import { useRouter } from "next/router"; // Import the useRouter hook
 
 import { client, urlFor } from "@/sanity/lib/client";
-import {
-  StarOutlined,
-  StarFilled,
-  MinusOutlined,
-  PlusOutlined
-} from "@ant-design/icons";
+// import {
+//   StarOutlined,
+//   StarFilled,
+//   MinusOutlined,
+//   PlusOutlined
+// } from "@ant-design/icons";
 import { useStateContext } from "../../context/StateContext";
 import { groq } from "next-sanity";
 import ForBusinessProduct from "../components/ForBusinessProduct";
@@ -65,6 +65,9 @@ function ForBusiness() {
 
   return (
     <div>
+      <h1 className="text-5xl font-[HUltraLight] text-center my-12  ">
+        Categories
+      </h1>
       <div className="product-detail-container">
         {products.length > 0 ? (
           products.map((product) => (

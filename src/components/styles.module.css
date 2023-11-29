@@ -30,7 +30,6 @@
   letter-spacing: 10px;
   height: 700px;
   text-shadow: rgb(167, 163, 163) 2px 2px 2px;
-
 }
 
 .header {
@@ -55,7 +54,7 @@
 }
 
 .column.expanded .header {
-  display: block; 
+  display: block;
 }
 
 .imgage {
@@ -76,8 +75,8 @@
   color: #01562f;
 }
 .antMenuItem {
-  height: 60px; 
-  line-height: 60px; 
+  height: 60px;
+  line-height: 60px;
 }
 .logo {
   width: 100%;

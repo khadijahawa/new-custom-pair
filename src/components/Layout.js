@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
       <header>
         <Header />
       </header>
-      <main className="main-container">{children}</main>
+      <main className="main-container ">{children}</main>
       <footer>
         <AppFooter />
       </footer>

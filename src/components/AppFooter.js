@@ -32,7 +32,7 @@ const AppFooter = () => {
     {
       key: "2",
       label: (
-        <Link href="/forBusniuss" passHref className="font-[BRegular]">
+        <Link href="/forBusiness " passHref className="font-[BRegular]">
           For Business
         </Link>
       )
@@ -67,7 +67,7 @@ const AppFooter = () => {
   return (
     <footer className="text-center bg-[#d0d0d0] p-16 relative ">
       <div className="absolute w-full bottom-0 ">
-        <div className="flex gap-3">
+        {/* <div className="flex gap-3">
           <Link href="/">
             <Image src={footerLogo1} alt="Logo" className="w-60" />
           </Link>
@@ -80,7 +80,7 @@ const AppFooter = () => {
           mode="horizontal"
           className={`font-[BRegular] text-white ${styles.antmenu}`}
           overflowedIndicator={null}
-        />
+        /> */}
 
         {/* <div className="mt-2 ">
           <div className="">

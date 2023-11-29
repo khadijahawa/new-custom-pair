@@ -46,7 +46,7 @@ const Header = () => {
           key: "2",
           label: (
             <Link
-              href="/forBusniuss"
+              href="/forBusiness"
               passHref
               onClick={closeMenu}
               className="font-[BRegular]"
@@ -89,7 +89,12 @@ const Header = () => {
     {
       key: "5",
       label: (
-        <Link href="/" passHref onClick={closeMenu} className="font-[BRegular]">
+        <Link
+          href="/about"
+          passHref
+          onClick={closeMenu}
+          className="font-[BRegular]"
+        >
           About Custom Pair
         </Link>
       )
