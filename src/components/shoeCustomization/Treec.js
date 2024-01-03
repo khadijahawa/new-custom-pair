@@ -1,16 +1,43 @@
 /* eslint-disable react/no-unknown-property */
 
 import React, { useState, useEffect } from "react";
-import { Upload, Button, Slider, Radio, Modal, Col, Row, Switch } from "antd";
+import {
+  Upload,
+  Button,
+  Slider,
+  Radio,
+  Modal,
+  Col,
+  Row,
+  Switch,
+  Input
+} from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import Treec from "./Svg";
+import TreecSvg from "./CustomSvg";
 import html2canvas from "html2canvas";
 import { SketchPicker } from "react-color";
+import { useTreecContext } from "../../../context/TreecContext";
 
-import Image from "next/image";
+// import Image from "next/image";
+const { TextArea } = Input;
+
 // import Stripe from "stripe";
 
-const CustomCustomization = () => {
+// const saveCustomizationData = (data) => {
+//   if (typeof window !== "undefined") {
+//     localStorage.setItem("treecData", JSON.stringify(data));
+//   }
+// };
+
+// export const getCustomizationData = () => {
+//   if (typeof window !== "undefined") {
+//     const data = localStorage.getItem("treecData");
+//     return data ? JSON.parse(data) : null;
+//   }
+//   return null;
+// };
+
+const Treec = () => {
   const [logoImage, setLogoImage] = useState(null);
   const [logoPopupVisible, setLogoPopupVisible] = useState(false);
   const [width, setWidth] = useState(100);
@@ -20,6 +47,7 @@ const CustomCustomization = () => {
   const [verticalPosition, setVerticalPosition] = useState(0);
   const [horizontalPosition, setHorizontalPosition] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [notes, setNotes] = useState("");
 
   const defaultColors = {
     front: "",
@@ -54,16 +82,46 @@ const CustomCustomization = () => {
     };
   }, []);
 
+  const { treecCustomization, setTreecCustomization } = useTreecContext();
+
   const handleSC = async () => {
     const whatWeWant = document.getElementById("modal-container");
     const finalImage = await html2canvas(whatWeWant);
-    const dataUrl = finalImage.toDataURL("image/png");
-    const a = document.createElement("a");
-    a.href = dataUrl;
-    a.download = "screenshot.png";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    const screenshotURL = finalImage.toDataURL("image/png");
+
+    const updatedColors = {
+      front: frontColor,
+      inner: innerColor,
+      back: backColor,
+      stripe: stripeColor,
+      backTop: backTopColor,
+      tongue: tongueColor
+    };
+
+    setTreecCustomization({
+      ...treecCustomization,
+      orderImage: screenshotURL,
+      placement: placement,
+      notes: notes,
+      colors: updatedColors
+    });
+
+    // const customData = {
+    //   screenshot: screenshotURL,
+    //   placement,
+    //   colors: namedColors,
+    //   notes
+    // };
+
+    // saveCustomizationData(customData);
+
+    setLogoPopupVisible(false);
+    // const a = document.createElement("a");
+    // a.href = dataUrl;
+    // a.download = "screenshot.png";
+    // document.body.appendChild(a);
+    // a.click();
+    // document.body.removeChild(a);
   };
 
   const partNames = ["Front", "Inner", "Back", "Stripe", "Back Top", "Tongue"];
@@ -165,7 +223,7 @@ const CustomCustomization = () => {
 
   return (
     <div>
-      <h2 className="mt-6">Total Custom </h2>
+      <h2 className="mt-6">Treec Customization</h2>
       <Button
         icon={<UploadOutlined />}
         onClick={() => setLogoPopupVisible(true)}
@@ -185,7 +243,7 @@ const CustomCustomization = () => {
             Save
           </Button>
         ]}
-        className="flex"
+        className="flex my-4"
         mask="true"
         width={1300}
       >
@@ -201,14 +259,9 @@ const CustomCustomization = () => {
                   Upload Logo And Customize It
                 </Button>
               </Upload>
-              <div className="my-2">
-                <label>
-                  Remove Background: <br />
-                </label>
-                <Switch onChange={handleRemoveBG} autoFocus className="my-2" />
-              </div>
+
               <div className="mx-1" id="modal-container">
-                <Treec
+                <TreecSvg
                   frontColor={frontColor}
                   innerColor={innerColor}
                   backColor={backColor}
@@ -237,7 +290,9 @@ const CustomCustomization = () => {
           </Col>
           <Col>
             <div>
-              <label>Select A Part: &nbsp; &nbsp;</label>
+              <label className="customSubHeader">
+                Select A Part: &nbsp; &nbsp;
+              </label>
               <Radio.Group
                 value={selectedPart}
                 onChange={(e) => setSelectedPart(e.target.value)}
@@ -249,9 +304,9 @@ const CustomCustomization = () => {
                 ))}
               </Radio.Group>
             </div>
-            <Row gutter={{ xs: 12, sm: 28, md: 38, lg: 48 }} className="my-4">
+            <Row gutter={{ xs: 2, sm: 4, md: 8, lg: 10 }} className="my-4">
               <Col className="mx-2">
-                <label>
+                <label className="customSubHeader">
                   Pick A Color:
                   <br />
                 </label>
@@ -273,10 +328,11 @@ const CustomCustomization = () => {
                       : ""
                   }
                   onChangeComplete={(color) => handleColorChange(color.hex)}
+                  className="mt-2"
                 />
               </Col>
               <Col className="mx-2">
-                <label>
+                <label className="customSubHeader">
                   Reset Color: <br />
                 </label>
                 {partNames.map((partName) => (
@@ -290,8 +346,36 @@ const CustomCustomization = () => {
                   </Button>
                 ))}
               </Col>
+              <Col>
+                <div>
+                  <label className="customSubHeader">
+                    Remove Background Of Logo <br />
+                  </label>
+                  <Switch
+                    onChange={handleRemoveBG}
+                    autoFocus
+                    className="my-2"
+                  />
+                </div>
+                <div>
+                  <label className="customSubHeader">
+                    Place Logo On
+                    <br />
+                  </label>
+                  <Radio.Group
+                    value={placement}
+                    onChange={(e) => setPlacement(e.target.value)}
+                    className="my-2"
+                  >
+                    <Radio.Button value="left">
+                      The Inner Side Of The{" "}
+                    </Radio.Button>
+                    <Radio.Button value="right">The Outter Side</Radio.Button>
+                  </Radio.Group>
+                </div>
+              </Col>
             </Row>
-            <label>Customize Your Logo:</label>
+            <label className="customSubHeader">Customize Your Logo:</label>
             <div className="my-2">
               <label>Width:</label>
               <Slider
@@ -319,7 +403,6 @@ const CustomCustomization = () => {
                 max={360}
               />
             </div>
-
             <div>
               <label>Vertical Position:</label>
               <Slider
@@ -338,20 +421,13 @@ const CustomCustomization = () => {
                 max={isMobile ? 300 : 450}
               />
             </div>
-            <div>
-              <label>
-                Placement On The Shoes
-                <br />
-              </label>
-              <Radio.Group
-                value={placement}
-                onChange={(e) => setPlacement(e.target.value)}
-                className="my-2"
-              >
-                <Radio.Button value="left">The Inner Side Of The </Radio.Button>
-                <Radio.Button value="right">The Outter Side</Radio.Button>
-              </Radio.Group>
-            </div>
+            <TextArea
+              placeholder="Additional Notes (Optional)"
+              className="mt-2"
+              rows={2}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
           </Col>
         </Row>
       </Modal>
@@ -359,4 +435,4 @@ const CustomCustomization = () => {
   );
 };
 
-export default CustomCustomization;
+export default Treec;

@@ -1,9 +1,9 @@
 const { product } = require("./schemas/product");
-const { designs } = require("./schemas/designs");
 const { cleaning } = require("./schemas/cleaning");
+const { order } = require("./schemas/order");
 
 const schema = {
-  types: [product, designs, cleaning]
+  types: [product, cleaning, order]
 };
 
 module.exports = {

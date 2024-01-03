@@ -1,4 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { NikeProvider } from "./NikeContext";
+import { AdidasProvider } from "./AdidasContext";
+import { TreecProvider } from "./TreecContext";
+
 import { toast } from "react-hot-toast";
 
 const Context = createContext();
@@ -8,51 +12,79 @@ export const StateContext = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
-  const [selectedColor, setSelectedColor] = useState("");
   const [totalQuantities, setTotalQuantities] = useState(0);
   const [qty, setQty] = useState(1);
   const [cleaningRequest, setCleaningRequest] = useState(null);
+  const [shipmentPrice, setShipmentPrice] = useState(0);
+  // const [updatedCartItems, setUpdatedCartItems] = useState([]);
 
   let foundProduct;
 
-  const onAdd = (product, quantity, selectedSize) => {
-    if (product._type === "cleaning") {
-      setCleaningRequest(product);
+  const calculateCleaningPrice = (quantity) => {
+    let pricePerPair = 0;
+
+    if (quantity <= 3) {
+      pricePerPair = 239;
+    } else if (quantity <= 10) {
+      pricePerPair = 179;
     } else {
-      const checkProductInCart = cartItems.find(
-        (item) => item._id === product._id
-      );
+      pricePerPair = 149;
+    }
 
-      setTotalPrice(
-        (prevTotalPrice) => prevTotalPrice + product.price * quantity
-      );
-      setTotalQuantities(
-        (prevTotalQuantities) => prevTotalQuantities + quantity
-      );
+    return pricePerPair * quantity;
+  };
 
-      if (checkProductInCart) {
-        const updatedCartItems = cartItems.map((cartProduct) => {
-          if (cartProduct._id === product._id)
-            return {
-              ...cartProduct,
-              quantity: cartProduct.quantity + quantity,
-              selectedSize,
-              selectedColor
-            };
-          return cartProduct;
-        });
+  const addCleaningRequest = (cleaningRequest, quantity) => {
+    if (quantity < 3) {
+      alert("Minimum quantity for ordering is 3");
+      return;
+    }
+    const totalPrice = calculateCleaningPrice(quantity);
+    const updatedCartItems = [...cartItems, cleaningRequest];
+    setCartItems(updatedCartItems);
+    setCleaningRequest(updatedCartItems);
+    setTotalPrice((prevTotal) => prevTotal + totalPrice);
+    console.log("total price in the state", totalPrice);
+    setTotalQuantities((prevQuantity) => prevQuantity + quantity);
+  };
 
-        setCartItems(updatedCartItems);
-      } else {
-        product.quantity = quantity;
-        product.selectedSize = selectedSize;
-        product.selectedColor = selectedColor;
-        setCartItems([...cartItems, { ...product }]);
-      }
+  const handleProductAdd = (
+    product,
+    quantity,
+    selectedSize,
+    customizationData
+  ) => {
+    const cartItem = {
+      Image: customizationData.orderImage,
+      productId: product._id,
+      name: product.name,
+      price: product.price,
+      quantity,
+      size: selectedSize,
+      customizationData
+    };
 
-      toast.success(`${quantity} ${product.name} added to the cart.`);
+    const updatedCartItems = [...cartItems, cartItem];
+    // setUpdatedCartItems((prevItems) => [...prevItems, cartItem]);
+    return updatedCartItems;
+  };
+
+  const onAdd = (product, quantity, selectedSize, customizationData) => {
+    let updatedCartItems;
+
+    updatedCartItems = handleProductAdd(
+      product,
+      quantity,
+      selectedSize,
+      customizationData
+    );
+    // console.log("updatedCartItems", updatedCartItems);
+    if (updatedCartItems) {
+      // setUpdatedCartItems(updatedCartItems);
+      setCartItems(updatedCartItems);
     }
   };
+
   const onRemove = (product) => {
     foundProduct = cartItems.find((item) => item._id === product._id);
     const newCartItems = cartItems.filter((item) => item._id !== product._id);
@@ -104,32 +136,42 @@ export const StateContext = ({ children }) => {
   };
 
   return (
-    <Context.Provider
-      value={{
-        showCart,
-        setShowCart,
-        cartItems,
-        totalPrice,
-        totalQuantities,
-        qty,
-        incQty,
-        decQty,
-        onAdd,
-        toggleCartItemQuanitity,
-        onRemove,
-        setCartItems,
-        setTotalPrice,
-        setTotalQuantities,
-        selectedSize,
-        setSelectedSize,
-        selectedColor,
-        setSelectedColor,
-        cleaningRequest,
-        setCleaningRequest
-      }}
-    >
-      {children}
-    </Context.Provider>
+    <NikeProvider>
+      <AdidasProvider>
+        <TreecProvider>
+          <Context.Provider
+            value={{
+              showCart,
+              setShowCart,
+              cartItems,
+              totalPrice,
+              // updatedCartItems,
+              totalQuantities,
+              qty,
+              incQty,
+              decQty,
+              onAdd,
+              addCleaningRequest,
+              toggleCartItemQuanitity,
+              onRemove,
+              setCartItems,
+              setTotalPrice,
+              setTotalQuantities,
+              selectedSize,
+              setSelectedSize,
+              // selectedColor,
+              // setSelectedColor,
+              cleaningRequest,
+              setCleaningRequest,
+              shipmentPrice,
+              setShipmentPrice
+            }}
+          >
+            {children}
+          </Context.Provider>
+        </TreecProvider>
+      </AdidasProvider>
+    </NikeProvider>
   );
 };
 

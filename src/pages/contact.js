@@ -2,7 +2,7 @@
 import React from "react";
 import { Form, Input, Button, message } from "antd";
 import { useRouter } from "next/router";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 import contactUs2 from "../utils/images/contact.jpeg";
 import { useSpring, animated, config } from "react-spring";
 
@@ -20,13 +20,9 @@ function contact() {
   // });
 
   function sendEmail(e) {
+    console.log(e);
     emailjs
-      .sendForm(
-        "service_92cnvis",
-        "template_72mvk1o",
-        e.target,
-        "KSx9aodRZYHIgS4Oy"
-      )
+      .send("service_92cnvis", "template_72mvk1o", e, "KSx9aodRZYHIgS4Oy")
       .then(
         (result) => {
           console.log(result.text);
@@ -78,7 +74,10 @@ function contact() {
         <h1 className={`text-center my-4 py-4 `}>
           {/* {t("contactUsPage.header")} */}
         </h1>
-        <Form className={`text-center my-4 py-4 `} onFinish={sendEmail}>
+        <Form
+          className={`text-center my-4 py-4 `}
+          onFinish={(e) => sendEmail(e)}
+        >
           <Form.Item
             name="name"
             rules={[{ required: true, message: "Please enter your name" }]}

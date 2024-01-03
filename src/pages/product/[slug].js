@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-// import {
-//   StarOutlined,
-//   StarFilled,
-//   MinusOutlined,
-//   PlusOutlined
-// } from "@ant-design/icons";
+import { getCustomizationData } from "../../components/shoeCustomization/Adidas";
 import { client, urlFor } from "../../../sanity/lib/client";
-import ForBusinessProduct from "../../components/ForBusinessProduct";
 import { useStateContext } from "../../../context/StateContext";
-import { BlockPicker, CirclePicker } from "react-color";
-
-import AdidasCustomization from "../../components/AdidasCustomization";
-import NikeCustomization from "../../components/NikeCustomization";
-import CustomCustomization from "../../components/CustomCustomization";
+import Adidas from "../../components/shoeCustomization/Adidas";
+import Nike from "../../components/shoeCustomization/Nike";
+import Treec from "../../components/shoeCustomization/Treec";
+import { useAdidasContext } from "../../../context/AdidasContext";
+import { useNikeContext } from "../../../context/NikeContext";
+import { useTreecContext } from "../../../context/TreecContext";
 
 import Image from "next/image";
 
@@ -23,64 +18,65 @@ const ProductDetails = ({ product, products }) => {
   const [index, setIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
   const [hueRotation, setHueRotation] = useState(0);
-  // const [selectedBrand, setSelectedBrand] = useState("nike");
-  const [selectedColor, setSelectedColor] = useState("#37d67a");
-  const [selectedColors, setSelectedColors] = useState({
-    toe: "#37d67a",
-    heel: "#000000",
-    sole: "#ffffff"
-    // Add more shoe parts and default colors as needed
-  });
-  const [uploadedImage, setUploadedImage] = useState(null);
-  const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
+
+  const { decQty, incQty, qty, onAdd, setShowCart, cartItems } =
+    useStateContext();
+  const { adidasCustomization, setAdidasCustomization } = useAdidasContext();
+  const { nikeCustomization, setNikeCustomization } = useNikeContext();
+  const { treecCustomization, setTreecCustomization } = useTreecContext();
 
   const renderCustomizationComponent = () => {
     switch (product.brand) {
       case "adidas":
-        return <AdidasCustomization product={product} />;
+        return <Adidas product={product} />;
       case "nike":
-        return <NikeCustomization product={product} />;
+        return <Nike product={product} />;
       case "treec":
-        return <CustomCustomization product={product} />;
+        return <Treec product={product} />;
       default:
         return null;
     }
-  };
-
-  const handleBuyNow = () => {
-    // onAdd(product, qty);
-
-    // setShowCart(true);
-
-    if (!selectedSize) {
-      alert("Please select a size before buying.");
-      return;
-    }
-    onAdd(product, qty, selectedSize);
-
-    setShowCart(true);
   };
 
   const handleSizeChange = (size) => {
     setSelectedSize(size);
   };
 
-  const handleColorChange = (color) => {
-    setSelectedColor(color);
-  };
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      alert("Please select a size before buying.");
+      return;
+    }
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    setUploadedImage(file);
+    // console.log("test product", product);
+    let customizationData;
+
+    switch (product.brand) {
+      case "adidas":
+        customizationData = adidasCustomization;
+        break;
+      case "nike":
+        customizationData = nikeCustomization;
+        break;
+      case "treec":
+        customizationData = treecCustomization;
+        break;
+
+      default:
+        customizationData = null;
+        break;
+    }
+
+    onAdd(product, qty, selectedSize, customizationData);
+
+    const updatedProduct = cartItems.find(
+      (item) => item.productId === product._id
+    );
+
+    console.log("Updated Product Details before the cart:", updatedProduct);
+
+    setShowCart(true);
   };
-  // const router = useRouter();
-  // const { brand } = router.query;
-  // console.log("brand", selectedBrand);
-  // useEffect(() => {
-  //   if (brand) {
-  //     setSelectedBrand(brand);
-  //   }
-  // }, [brand]);
 
   const router = useRouter();
   const { brand } = router.query;
@@ -90,6 +86,10 @@ const ProductDetails = ({ product, products }) => {
       setSelectedBrand(brand);
     }
   }, [brand]);
+
+  useEffect(() => {
+    console.log("Updated Cart Items:", cartItems);
+  }, [cartItems]);
 
   return (
     <div>
@@ -167,23 +167,12 @@ const ProductDetails = ({ product, products }) => {
             >
               Add to Cart
             </button>
-            <button type="button" className="buy-now" onClick={handleBuyNow}>
+            <button type="button" className="buy-now" onClick={handleAddToCart}>
               Buy Now
             </button>
           </div>
         </div>
       </div>
-
-      {/* <div className="maylike-products-wrapper">
-        <h2>You may also like</h2>
-        <div className="marquee">
-          <div className="maylike-products-container track">
-            {products.map((item) => (
-              <ForBusinessProduct key={item._id} product={item} />
-            ))}
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };

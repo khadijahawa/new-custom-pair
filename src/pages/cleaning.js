@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const cleaning = () => {
   const router = useRouter();
-  const { qty, onAdd, setShowCart } = useStateContext();
+  const { addCleaningRequest, qty, setShowCart } = useStateContext();
 
   const [dateTime, setDateTime] = useState("");
   const [address, setAddress] = useState("");
@@ -18,21 +18,16 @@ const cleaning = () => {
     e.preventDefault();
 
     const cleaningRequest = {
-      _type: "cleaning",
+      type: "cleaning",
       dateTime,
       address,
       quantity,
       details
     };
 
-    if (quantity < 3) {
-      alert("Minimum quantity for ordering is 3");
-      return;
-    }
-
     try {
       await client.create(cleaningRequest);
-      onAdd(cleaningRequest, qty);
+      addCleaningRequest(cleaningRequest, quantity);
       setShowCart(true);
     } catch (error) {
       console.error("Error submitting cleaning request:", error);

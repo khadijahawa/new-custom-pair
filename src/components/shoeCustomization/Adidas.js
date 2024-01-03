@@ -1,28 +1,52 @@
 import React, { useState, useEffect } from "react";
-import { Upload, Button, Slider, Radio, Modal, Col, Row, Switch } from "antd";
-import { UploadOutlined, SaveOutlined } from "@ant-design/icons";
-// import nike from "../utils/images/Untitled design.png";
-import { SketchPicker } from "react-color";
-import Nikesvg from "../utils/svgs/222.svg";
-// import Image from "next/image";
-import html2canvas from "html2canvas";
+import {
+  Upload,
+  Button,
+  Slider,
+  Radio,
+  Modal,
+  Col,
+  Row,
+  Switch,
+  Input
+} from "antd";
 
-const NikeCustomization = () => {
+import { UploadOutlined, PlusOutlined, MinusOutlined } from "@ant-design/icons";
+import AdidasImage from "../../utils/svgs/stan-heel.svg";
+import Image from "next/image";
+import html2canvas from "html2canvas";
+import { useAdidasContext } from "../../../context/AdidasContext";
+
+const { TextArea } = Input;
+
+// const saveCustomizationData = (data) => {
+//   if (typeof window !== "undefined") {
+//     localStorage.setItem("adidasData", JSON.stringify(data));
+//   }
+// };
+
+// export const getCustomizationData = () => {
+//   if (typeof window !== "undefined") {
+//     const data = localStorage.getItem("adidasData");
+//     return data ? JSON.parse(data) : null;
+//   }
+//   return null;
+// };
+
+const Adidas = () => {
   const [logoImage, setLogoImage] = useState(null);
   const [logoPopupVisible, setLogoPopupVisible] = useState(false);
   const [width, setWidth] = useState(100);
   const [height, setHeight] = useState(100);
   const [rotation, setRotation] = useState(0);
-  const [placement, setPlacement] = useState("left");
+  const [placement, setPlacement] = useState("Outer Face");
   const [verticalPosition, setVerticalPosition] = useState(0);
   const [horizontalPosition, setHorizontalPosition] = useState(0);
-  const [nikeSwooshColor, setNikeSwooshColor] = useState("#E2E2E2");
   const [removingBackground, setRemovingBackground] = useState(false);
+  // const [screenshotURL, setScreenshotURL] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-
-  const handleImageUpload = (file) => {
-    setLogoImage(URL.createObjectURL(file));
-  };
+  const [notes, setNotes] = useState("");
+  const [quantity, setQuantity] = useState(5);
 
   useEffect(() => {
     const handleResize = () => {
@@ -38,16 +62,48 @@ const NikeCustomization = () => {
     };
   }, []);
 
+  // const saveCustomizationData = (data) => {
+  //   localStorage.setItem("treecData", JSON.stringify(data));
+  // };
+  const { adidasCustomization, setAdidasCustomization } = useAdidasContext();
+
+  // console.log("adidasCustomization", adidasCustomization);
+
   const handleSC = async () => {
     const whatWeWant = document.getElementById("modal-container");
     const finalImage = await html2canvas(whatWeWant);
-    const dataUrl = finalImage.toDataURL("image/png");
-    const a = document.createElement("a");
-    a.href = dataUrl;
-    a.download = "screenshot.png";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    const screenshotURL = finalImage.toDataURL("image/png");
+
+    setAdidasCustomization({
+      ...adidasCustomization,
+      orderImage: screenshotURL,
+      placement: placement,
+      notes: notes
+    });
+
+    // const customData = {
+    //   screenshot: screenshotURL,
+    //   placement
+    // };
+
+    // saveCustomizationData(customData);
+
+    setLogoPopupVisible(false);
+
+    // const a = document.createElement("a");
+    // a.href = dataUrl;
+    // a.download = "screenshot.png";
+    // document.body.appendChild(a);
+    // a.click();
+    // document.body.removeChild(a);
+  };
+
+  const handleImageUpload = (file) => {
+    setLogoImage(URL.createObjectURL(file));
+  };
+
+  const handleSaveChanges = () => {
+    setLogoPopupVisible(false);
   };
 
   const handleRemoveBG = () => {
@@ -87,12 +143,6 @@ const NikeCustomization = () => {
       })
       .catch((error) => console.error(error));
   };
-  const handleSaveChanges = () => {
-    setLogoPopupVisible(false);
-  };
-  const handleColorChange = (color) => {
-    setNikeSwooshColor(color.hex);
-  };
 
   return (
     <div>
@@ -103,12 +153,12 @@ const NikeCustomization = () => {
         className="my-4 rounded border-zinc-300	rounded-3xl	hover:#0d9488 focus:outline-none focus:ring focus:ring-mgreen font-[BSemiBold] border-mgreen-500/75"
         type="secundray"
       >
-        Upload Logo
+        Upload Logo And Customize It
       </Button>
 
       <Modal
-        title="Customize Logo"
-        open={logoPopupVisible}
+        title="Customize Your Adidas Shoes"
+        visible={logoPopupVisible}
         centered
         onCancel={() => setLogoPopupVisible(false)}
         footer={[
@@ -116,77 +166,57 @@ const NikeCustomization = () => {
             Save
           </Button>
         ]}
-        className="flex justify-items-center"
+        className="flex"
         mask="true"
-        width={1100}
+        width={1000}
+        // height={750}
       >
-        <Row gutter={{ xs: 8, sm: 24, md: 42, lg: 48 }}>
+        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
           <Col>
-            <div className="relative max-w-[500px] ">
+            <div>
               <Upload
                 accept="image/*"
                 customRequest={({ file }) => handleImageUpload(file)}
                 showUploadList={false}
               >
-                <Button icon={<UploadOutlined />}>Upload Logo</Button>
+                <Button icon={<UploadOutlined />} className="my-4">
+                  Upload Logo And Customize It
+                </Button>
               </Upload>
-              <div className="my-4">
-                <label>
-                  Remove Background: <br />
-                </label>
-                <Switch onChange={handleRemoveBG} autoFocus />
-              </div>
-              <div id="modal-container">
-                <div>
-                  <Nikesvg
-                    width={500}
-                    height={500}
-                    style={{
-                      backgroundColor: `${nikeSwooshColor}`
-                    }}
-                    className="treecSvg"
-                  />
-                </div>
+              <div>
+                <Button key="save" type="primary" onClick={handleSC}>
+                  Save
+                </Button>
 
-                {logoImage && (
-                  <img
-                    src={logoImage}
-                    alt="Custom Logo"
-                    style={{
-                      position: "absolute",
-                      width: `${width}%`,
-                      height: `${height}%`,
-                      transform: `rotate(${rotation}deg)`,
-                      float: placement,
-                      maxWidth: "100%",
-                      top: `${verticalPosition}px`,
-                      left: `${horizontalPosition}px`
-                    }}
-                  />
-                )}
+                <div id="modal-container">
+                  <AdidasImage className="treecSvg" />
+                  {logoImage && (
+                    <Image
+                      src={logoImage}
+                      width={100}
+                      height={100}
+                      style={{
+                        width: `${width}%`,
+                        height: `${height}%`,
+                        position: "absolute",
+                        transform: `rotate(${rotation}deg)`,
+                        top: `${verticalPosition}px`,
+                        left: `${horizontalPosition}px`,
+                        zIndex: 2
+                      }}
+                    />
+                  )}
+                </div>
               </div>
             </div>
           </Col>
           <Col>
             <div>
-              <label>
-                Change The Woosh Color:
-                <br />
-              </label>
-              <SketchPicker
-                color={nikeSwooshColor}
-                onChangeComplete={handleColorChange}
-                className="mt-4"
-              />
-            </div>
-            <div className="my-3">Customize Your Logo:</div>
-
-            <div>
               <label>Width:</label>
               <Slider
                 value={width}
                 onChange={(value) => setWidth(value)}
-                min={5}
+                min={10}
                 max={200}
               />
             </div>
@@ -195,7 +225,7 @@ const NikeCustomization = () => {
               <Slider
                 value={height}
                 onChange={(value) => setHeight(value)}
-                min={5}
+                min={10}
                 max={200}
               />
             </div>
@@ -204,7 +234,7 @@ const NikeCustomization = () => {
               <Slider
                 value={rotation}
                 onChange={(value) => setRotation(value)}
-                min={-360}
+                min={0}
                 max={360}
               />
             </div>
@@ -215,7 +245,7 @@ const NikeCustomization = () => {
                 value={verticalPosition}
                 onChange={(value) => setVerticalPosition(value)}
                 min={isMobile ? -50 : -150}
-                max={isMobile ? 300 : 550}
+                max={isMobile ? 300 : 350}
               />
             </div>
             <div>
@@ -224,28 +254,52 @@ const NikeCustomization = () => {
                 value={horizontalPosition}
                 onChange={(value) => setHorizontalPosition(value)}
                 min={isMobile ? -50 : -150}
-                max={isMobile ? 250 : 550}
+                max={isMobile ? 300 : 350}
               />
             </div>
             <div>
               <label>
-                {" "}
-                Placement On The Shoes <br />
+                Placement Logo On <br />
+                <br />
               </label>
               <Radio.Group
                 value={placement}
                 onChange={(e) => setPlacement(e.target.value)}
-                className="my-2"
               >
-                <Radio.Button value="left"> The Inside Face</Radio.Button>
-                <Radio.Button value="right">The Outside Face</Radio.Button>
+                <Radio.Button value="Inner">The Inner Side</Radio.Button>
+                <Radio.Button value="Outter">The Outter Side</Radio.Button>
               </Radio.Group>
             </div>
+            <div className="mt-4">
+              <label>
+                Remove Background Of Logo <br />
+              </label>
+              <Switch onChange={handleRemoveBG} autoFocus className="mt-2" />
+            </div>
+            <TextArea
+              placeholder="Additional Notes (Optional)"
+              className="mt-2"
+              rows={2}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            />
           </Col>
         </Row>
       </Modal>
+      <div className="quantity">
+        <h3>Quantity:</h3>
+        <p className="quantity-desc">
+          <span className="minus">
+            <MinusOutlined />
+          </span>
+          <span className="num">quantity</span>
+          <span className="plus">
+            <PlusOutlined />
+          </span>
+        </p>
+      </div>
     </div>
   );
 };
 
-export default NikeCustomization;
+export default Adidas;

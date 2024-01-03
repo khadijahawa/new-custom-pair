@@ -47,28 +47,39 @@ export const product = {
       name: "brand",
       title: "Brand",
       type: "string"
-    },
-    {
-      name: "customizedData",
-      title: "Customized Data",
-      type: "object",
-      fields: [
-        {
-          name: "logoImage",
-          title: "Logo Image",
-          type: "image"
-        },
-        {
-          name: "nikeSwooshColor",
-          title: "Nike Swoosh Color",
-          type: "string"
-        },
-        {
-          name: "logoDesignPrice",
-          title: "Logo Design Price",
-          type: "number"
-        }
-      ]
     }
+    // {
+    //   name: "customizedData",
+    //   title: "Customized Data",
+    //   type: "object",
+    //   fields: [
+    //     {
+    //       name: "OrderImage",
+    //       title: "Order Image",
+    //       type: "image"
+    //     },
+    //     {
+    //       name: "OrderColors",
+    //       title: "Order Colors",
+    //       type: "object",
+    //       fields: [
+    //         {
+    //           name: "nikeColors",
+    //           title: "Nike Colors",
+    //           type: "array",
+    //           of: [{ type: "string" }],
+    //           description: "Color codes for Nike shoes"
+    //         },
+    //         {
+    //           name: "treecColors",
+    //           title: "Treec Colors",
+    //           type: "array",
+    //           of: [{ type: "string" }],
+    //           description: "Color codes for Treec shoes"
+    //         }
+    //       ]
+    //     }
+    //   ]
+    // }
   ]
 };
